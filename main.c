@@ -1,0 +1,9 @@
+#include <stdio.h>
+#include "headers/login.h"
+#include "headers/structs.h"
+#include "headers/hashmap.h"
+
+int main() {
+    HashMap* usuarios = cargar_credenciales();
+    login(usuarios);
+}
