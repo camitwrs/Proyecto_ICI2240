@@ -91,7 +91,7 @@ void login(HashMap *usuarios) {
     char rut[256], password[256];
 
     while (login_correcto == false) {
-        printf("Ingresa tu usuario\n");
+        printf("Ingresa tu rut\n");
         fgets(rut, sizeof(rut), stdin);
         strtok(rut, "\n");
 
