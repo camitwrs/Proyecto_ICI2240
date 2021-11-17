@@ -4,14 +4,6 @@
 #include "hashmap.h"
 #include "treemap.h"
 
-typedef struct
-{
-    char rut[9];
-    char contrasenia[256];
-    char cargo[50];
-    char cine[50];
-    void *trabajador;
-} Usuario;
 
 typedef struct
 {

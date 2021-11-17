@@ -5,14 +5,6 @@
 #include "headers/hashmap.h"
 #include "headers/treemap.h"
 
-typedef struct
-{
-    char rut[9];
-    char contrasenia[256];
-    char cargo[50];
-    char cine[50];
-    void *trabajador;
-} Usuario;
 
 typedef struct
 {
@@ -50,12 +42,13 @@ typedef struct
 
 typedef struct
 {
-    char nombre[20];
     char rut[10];
-    int sueldo;
-    char cargo[12]; // empleado, admin, admin_global
-    Horario horario;
     char password[8];
+    char cargo[12]; // empleado, admin, admin_global
+    char cine[64];
+    char nombre[20];
+    int sueldo;
+    Horario horario;
     int ventas;
     List *asistencia;
 } Trabajador;

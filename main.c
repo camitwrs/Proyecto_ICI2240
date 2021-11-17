@@ -4,6 +4,8 @@
 #include "headers/hashmap.h"
 
 int main() {
-    HashMap* usuarios = cargar_credenciales();
-    login(usuarios);
+    HashMap* trabajadores = cargar_credenciales();
+    HashMap* cines = createMap(100);
+
+    login(trabajadores, cines);
 }

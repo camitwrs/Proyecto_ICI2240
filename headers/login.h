@@ -2,4 +2,4 @@
 
 void *cargar_credenciales();
 
-void login(HashMap *usuarios);
+void login(HashMap *trabajadores, HashMap *cines);
