@@ -1,12 +1,12 @@
-#include <stdio.h>
-#include <stdbool.h>
 #include <time.h>
+#include <stdbool.h>
 #include "headers/list.h"
 #include "headers/hashmap.h"
 #include "headers/treemap.h"
+#include "headers/structs.h"
 
 
-typedef struct
+struct Pelicula 
 {
     char nombre[50];
     int anio;
@@ -14,56 +14,56 @@ typedef struct
     List *generos;
     HashMap *funciones;
     int precio;
-    char formato[4]; // 2D, 3D, 3DX, 4D...
-    int dob_sub; // 0: doblada, 1: subtitulada
-} Pelicula;
+    char formato[4];
+    int dob_sub;
+};
 
-typedef struct
+struct Sala
 {
     int numero;
     int asientos_totales;
-    int estado; // 0: deshabilitada, 1: habilitada
+    int estado;
     Pelicula pelicula;
-} Sala;
+};
 
-typedef struct
+struct Horario
 {
     time_t inicio;
     time_t final;
-} Horario;
+};
 
-typedef struct
+struct Funcion
 {
     Horario horario;
     Sala sala;
     Pelicula pelicula;
     int entradas_vendidas;
-} Funcion;
+};
 
-typedef struct
+struct Trabajador
 {
-    char rut[10];
-    char password[8];
-    char cargo[12]; // empleado, administrador_local, administrador_global
-    char cine[64];
     char nombre[20];
+    char cine[50];
+    char rut[10];
     int sueldo;
+    char cargo[30]; // empleado, admin, admin_global
     Horario horario;
+    char password[50];
     int ventas;
     List *asistencia;
-} Trabajador;
+};
 
-typedef struct
+struct Cine
 {
     char nombre[30];
     int total_ventas;
     HashMap *trabajadores;
     HashMap *peliculas;
     List *salas;
-} Cine;
+};
 
-typedef struct
+struct Codigo
 {
     bool usado;
-    int descuento; // [1-100]
-} Codigo;
+    int descuento;
+};
