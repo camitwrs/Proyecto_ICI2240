@@ -5,7 +5,7 @@ void *cargar_credenciales();
 
 void login(HashMap *trabajadores, HashMap *cines);
 
-void eleccion_menu(Trabajador* trabajador);
+void eleccion_menu(HashMap *trabajadores, Trabajador* trabajador);
 
 void menu_empleado(Trabajador* trabajador);
 

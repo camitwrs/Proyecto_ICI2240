@@ -9,21 +9,22 @@
 struct Pelicula 
 {
     char nombre[50];
+    char id[10];
+    int duracion;
     int anio;
-    int stock;
-    List *generos;
-    HashMap *funciones;
-    int precio;
-    char formato[4];
     int dob_sub;
+    int precio;
+    List *generos;
+    TreeMap *funciones; // Ordenado por tiempo POSIX de inicio de funcion.
 };
 
 struct Sala
 {
-    int numero;
+    char id[3];
     int asientos_totales;
     int estado;
-    Pelicula pelicula;
+    TreeMap *funciones; // Ordenado por tiempo POSIX de tiempo de funcion.
+    //Pelicula pelicula;
 };
 
 struct Horario
@@ -34,9 +35,9 @@ struct Horario
 
 struct Funcion
 {
-    Horario horario;
-    Sala sala;
-    Pelicula pelicula;
+    Horario *horario;
+    Sala *sala;
+    Pelicula *pelicula;
     int entradas_vendidas;
 };
 
@@ -47,9 +48,9 @@ struct Trabajador
     char rut[10];
     int sueldo;
     char cargo[30]; // empleado, admin, admin_global
-    Horario horario;
     char password[50];
     int ventas;
+    TreeMap *horario; // Ordenado por tiempo POSIX de inicio de horario.
     List *asistencia;
 };
 
@@ -57,9 +58,15 @@ struct Cine
 {
     char nombre[30];
     int total_ventas;
-    HashMap *trabajadores;
-    HashMap *peliculas;
-    List *salas;
+    HashMap *trabajadores; // Key -> RUT
+    HashMap *peliculas; // Key -> nombre de pelicula
+    HashMap *salas; // Key -> numero de sala
+};
+
+struct Asistencia
+{
+    time_t inicio;
+    int asistencia;
 };
 
 struct Codigo

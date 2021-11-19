@@ -10,4 +10,6 @@ typedef struct Trabajador Trabajador;
 
 typedef struct Cine Cine;
 
+typedef struct Asistencia Asistencia;
+
 typedef struct Codigo Codigo;
