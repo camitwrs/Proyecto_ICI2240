@@ -104,7 +104,7 @@ void *crear_trabajador(char *rut, char *password, char *cargo, char *cine) {
     return trabajador;
 }
 
-
+// 1
 void *cargar_credenciales() {
     char *path = "data/credenciales.csv";
     HashMap *trabajadores = createMap(100);
@@ -496,7 +496,7 @@ void *cargar_cine(HashMap* trabajadores, Trabajador* trabajador) {
     // Se crea el mapa películas y se cargan los datos. Falta implementar una parte.
     cine->peliculas =  cargar_peliculas(cine_folder, cine->salas);
 }
-
+// 2
 void login(HashMap *usuarios, HashMap *cines) {
     bool login_correcto = false;
     char rut[256], password[256];
@@ -584,7 +584,6 @@ void menu_empleado(Trabajador* trabajador)
 
         switch (choice) {
             case 1:
-
                 break;
             case 2:
 
