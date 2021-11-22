@@ -19,12 +19,17 @@ class Controller:
             Si las credenciales son correctas, se despliega el menú correspondiente según el cargo.
         """
         usuario = self.model.ingresar(usuario, contraseña)
+        print("busca al usuario")
 
         if usuario is None:
+            print("primer if")
             self.view.throw_messagebox("LOGIN", "Error. Inténtelo nuevamente")
         elif usuario.cargo == "empleado":
+            print("segundo if")
             self.view.switch_frame(PageEmpleado)
-        elif usuario.cargo == "administrado_local":
+        elif usuario.cargo == "administrador_local":
+            print("tercer if")
             self.view.switch_frame(PageAdminLocal)
         elif usuario.cargo == "administrador_global":
+            print("cuarto if")
             self.view.switch_frame(PageAdminGlobal)
