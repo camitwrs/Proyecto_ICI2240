@@ -26,7 +26,8 @@ class Sistema:
             El absolute_path deberia cambiar dependiendo como esté ordenado el proyecto.
         """
         path = os.getcwd()
-        absolute_path = f"{path}\Programa Python\data\credenciales.csv"
+        print(path)
+        absolute_path = f"{path}\data\credenciales.csv"
     
         with open(absolute_path) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
