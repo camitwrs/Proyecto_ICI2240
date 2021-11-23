@@ -1,6 +1,14 @@
 import csv
 import os
+from datetime import datetime
+
 from src.trabajador import Empleado, AdminGlobal, AdminLocal
+from src.modelos.cine import Cine
+from src.modelos.horario import Horario
+from src.modelos.asistencia import Asistencia
+from src.modelos.salas import Sala
+from src.modelos.pelicula import Pelicula
+from src.modelos.funcion import Funcion
 
 class Sistema:
     def __init__(self):
@@ -26,7 +34,6 @@ class Sistema:
             El absolute_path deberia cambiar dependiendo como esté ordenado el proyecto.
         """
         path = os.getcwd()
-        print(path)
         absolute_path = f"{path}\data\credenciales.csv"
     
         with open(absolute_path) as csv_file:
@@ -47,6 +54,190 @@ class Sistema:
             
         return usuarios
 
+    def _cargar_ventas(self, cine_folder: str):
+        total_ventas = 0
+
+        with open(f"{cine_folder}\\ventas.csv") as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            next(csv_reader) # Se salta la línea que contiene el nombre de los campos
+
+            for row in csv_reader:
+                #empleado = row[0]
+                #fecha = row[1]
+                precio = row[2]
+                #cine = row[3]
+                
+                total_ventas += int(precio)
+
+        print(total_ventas)
+        return total_ventas
+
+    def _cargar_horarios(self, cine_folder: str, rut: str):
+        horarios = []
+
+        with open(f"{cine_folder}\empleados\{rut}\horarios.csv") as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=",")
+            next(csv_reader)
+
+            for row in csv_reader:
+                inicio = row[0]
+                final = row[1]
+
+                horario = Horario(
+                    datetime.fromtimestamp(int(inicio)), datetime.fromtimestamp(int(final)))
+                horarios.append(horario)
+
+        return horarios
+
+    def _cargar_asistencia(self, cine_folder: str, rut: str):
+        asistencia_list = []
+
+        with open(f"{cine_folder}\empleados\{rut}\horarios.csv") as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=",")
+            next(csv_reader)
+
+            for row in csv_reader:
+                horario_inicio = int(row[0])
+                asistencia_bool = bool(row[1])
+
+                asistencia = Asistencia(
+                    datetime.fromtimestamp(horario_inicio), asistencia_bool
+                )
+                asistencia_list.append(asistencia)
+
+        return asistencia_list
+
+    def _cargar_trabajadores(self, cine_folder: str):
+        trabajadores_cine = {}
+        
+        with open(f"{cine_folder}\\empleados.csv") as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            next(csv_reader) # Se salta la línea que contiene el nombre de los campos
+
+            for row in csv_reader:
+                nombre = row[0]
+                rut = row[1]
+                sueldo = row[2]
+                ventas = row[3]
+
+                empleado = self.usuarios[rut]
+                empleado.nombre = nombre
+                empleado.sueldo = sueldo
+                empleado.ventas = ventas
+                empleado.horarios = self._cargar_horarios(cine_folder, rut)
+                empleado.asistencia = self._cargar_asistencia(cine_folder, rut)
+
+                print(empleado.nombre, empleado.sueldo, empleado.ventas)
+
+                for horario in empleado.horarios:
+                    print(horario.inicio, horario.final)
+
+                for asistencia in empleado.asistencia:
+                    print(asistencia.inicio, asistencia.asistencia)
+
+        return trabajadores_cine
+
+    def _cargar_salas(self, cine_folder: str) -> dict:
+        salas = {}
+        with open(f"{cine_folder}\\salas.csv") as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            next(csv_reader)
+
+            for row in csv_reader:
+                numero = int(row[0])
+                asientos_totales = int(row[1])
+                estado = bool(row[2])
+                funciones = []
+
+                sala = Sala(numero, asientos_totales, estado, funciones=funciones)
+                salas[numero] = sala
+
+                print(numero, asientos_totales, estado)
+        return salas
+
+    def _cargar_funciones(self, cine_folder: str, peliculas: dict, salas: dict): 
+        funciones = []
+        with open(f"{cine_folder}\\funciones.csv") as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            next(csv_reader)
+
+            for row in csv_reader:
+                inicio = int(row[0])
+                sala = int(row[1])
+                nombre = row[2]
+                id_ = int(row[3])
+                entradas_vendidas = int(row[4])
+                
+                pelicula = peliculas[nombre][id_]
+                horario = Horario(
+                    datetime.fromtimestamp(inicio), 
+                    datetime.fromtimestamp(inicio + (pelicula.duracion) * 60)
+                )
+                sala = salas[sala]
+
+                funcion = Funcion(horario, sala, pelicula, entradas_vendidas)
+                funciones.append(funcion)
+                sala.funciones.append(funcion)
+
+                print(funcion.horario.inicio, funcion.horario.final, funcion.sala.numero, funcion.sala.asientos_totales,
+                        funcion.sala.estado, funcion.pelicula.nombre, funcion.entradas_vendidas)
+
+        return funciones
+
+
+    def _cargar_peliculas(self, cine_folder: str, salas):
+        peliculas = {}
+        with open(f"{cine_folder}\\peliculas.csv") as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            next(csv_reader)
+
+            for row in csv_reader:
+                nombre = row[0]
+                id_ = int(row[1])
+                duracion = int(row[2])
+                año = int(row[3])
+                generos = row[4].split(",")
+                precio = int(row[5])
+                dob_sub = row[6]
+
+                pelicula = Pelicula(nombre, id_, duracion, año, generos, precio, dob_sub)
+
+                pelicula_search = peliculas.get(nombre)
+                if pelicula_search is not None:
+                    peliculas[nombre][id_] = pelicula
+                else:
+                    peliculas[nombre] = {id_: pelicula}
+
+                print(pelicula.nombre, pelicula.id, pelicula.duracion, pelicula.año, pelicula.generos, pelicula.precio, pelicula.dob_sub)
+
+        
+        self._cargar_funciones(cine_folder, peliculas, salas)
+        return peliculas
+
+    def _cargar_cine(self, cine: str):
+        cine_folder = f"{os.getcwd()}\data\{cine}\\"
+
+        total_ventas = self._cargar_ventas(cine_folder)
+        trabajadores = self._cargar_trabajadores(cine_folder)
+        salas = self._cargar_salas(cine_folder)
+        peliculas = self._cargar_peliculas(cine_folder, salas)
+
+        cine = Cine(cine, total_ventas, trabajadores, peliculas, salas)
+
+        return cine
+
+    def _cargar_cines(self):
+        """
+            Obtiene el nombre de todas las carpetas de cines en la carpeta data y las carga al programa. 
+        """
+        cines = []
+        for item in os.scandir("./data"):
+            if item.is_dir():
+                cines.append(item.name)
+        
+        for cine in cines:
+            self._cargar_cine(cine)
+
     def ingresar(self, usuario: str, contraseña: str) -> object:
         """
             Recibe un usuario y contraseña, los cuáles verifica que coincidan con algún usuario del sistema.
@@ -59,6 +250,12 @@ class Sistema:
 
             if login_valido:
                 self.sesion_activa = usuario
+
+                if usuario.cargo == "administrador_global":
+                    self._cargar_cines()
+                else:
+                    self._cargar_cine(usuario.cine)
+                
                 return usuario
         else:
             return None

@@ -8,6 +8,13 @@ class Trabajador(ABC):
         self.cargo = cargo
         self.cine = cine
 
+        """ Variables que se cargan solo una vez que se carga un cine y la información de los empleados. """
+        self.nombre = ""
+        self.sueldo = 0
+        self.ventas = 0
+        self.horarios = None # Debería ser un treemap
+        self.asistencia = None # Deberia ser una lista
+
     def verificar_contraseña(self, contraseña: str) -> bool:
         """ Recibe un string y verifica si coincide con la contraseña correspondiente. """
         if self.contraseña == contraseña:
