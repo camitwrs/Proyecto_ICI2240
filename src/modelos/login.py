@@ -3,14 +3,12 @@ import os
 from datetime import datetime
 
 from src.trabajador import Empleado, AdminGlobal, AdminLocal
-from src.modelos.cine import Cine
-from src.modelos.horario import Horario
-from src.modelos.asistencia import Asistencia
-from src.modelos.salas import Sala
-from src.modelos.pelicula import Pelicula
-from src.modelos.funcion import Funcion
+from src.modelos import *
 
-class Sistema:
+class LoginModel:
+    """
+        Clase que contiene la parte lógica del login y la carga de datos al programa.
+    """
     def __init__(self):
         self.usuarios = self._cargar_credenciales()
 
@@ -25,14 +23,11 @@ class Sistema:
 
     def _cargar_credenciales(self) -> None:
         """
-            Carga los datos iniciales de todos los trabajadores del sistema.
+            Carga los datos iniciales de todos los trabajadores del LoginModel.
             Se almacenan los objetos de los trabajadores en un dict, en la variable self.usuarios.
         """
         usuarios = {}
 
-        """
-            El absolute_path deberia cambiar dependiendo como esté ordenado el proyecto.
-        """
         path = os.getcwd()
         absolute_path = f"{path}\data\credenciales.csv"
     
@@ -230,18 +225,22 @@ class Sistema:
         """
             Obtiene el nombre de todas las carpetas de cines en la carpeta data y las carga al programa. 
         """
-        cines = []
+        cines_names = []
+        cines_dict = {}
         for item in os.scandir("./data"):
             if item.is_dir():
-                cines.append(item.name)
+                cines_names.append(item.name)
         
-        for cine in cines:
-            self._cargar_cine(cine)
+        for cine in cines_names:
+            cines_dict[cine] = self._cargar_cine(cine)
+
+        return cines_dict
 
     def ingresar(self, usuario: str, contraseña: str) -> object:
         """
-            Recibe un usuario y contraseña, los cuáles verifica que coincidan con algún usuario del sistema.
-            Retorna la referencia al usuario en caso de que los datos sean válidos, y None en caso contrario. 
+            Recibe un usuario y contraseña, los cuáles verifica que coincidan con algún usuario del LoginModel.
+            Retorna la referencia al usuario y el modelo a utilizar por el controlador en caso de que los datos sean válidos, 
+            y None en caso contrario. 
         """
         usuario = self.usuarios.get(usuario)
 
@@ -249,14 +248,20 @@ class Sistema:
             login_valido = usuario.verificar_contraseña(contraseña)
 
             if login_valido:
-                self.sesion_activa = usuario
-
                 if usuario.cargo == "administrador_global":
-                    self._cargar_cines()
+                    cines = self._cargar_cines()
+                    modelo = usuario.crear_modelo(
+                        usuario = usuario,
+                        cines = cines
+                    )
                 else:
-                    self._cargar_cine(usuario.cine)
+                    cine = self._cargar_cine(usuario.cine)
+                    modelo = usuario.crear_modelo(
+                        usuario = usuario,
+                        cine = cine
+                    )
                 
-                return usuario
+                return usuario, modelo
         else:
-            return None
+            return None, None
 
