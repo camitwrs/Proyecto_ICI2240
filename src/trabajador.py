@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from .cine import Cine
 from src.modelos.empleado_model import EmpleadoModel
 from src.modelos.admin_local_model import AdminLocalModel
+from src.modelos.admin_global_model import AdminGlobalModel
 
 class Trabajador(ABC):
     def __init__(self, rut, contraseña, cargo, cine):
@@ -39,7 +40,7 @@ class Empleado(Trabajador):
         if cine is None or not isinstance(cine, Cine):
             return None
 
-        return AdminLocalModel(usuario, cine)
+        return EmpleadoModel(usuario, cine)
 
 class AdminLocal(Trabajador):
     def crear_modelo(self, **kwargs):
@@ -51,7 +52,7 @@ class AdminLocal(Trabajador):
         if cine is None or not isinstance(cine, Cine):
             return None
 
-        return EmpleadoModel(usuario, cine)
+        return AdminLocalModel(usuario, cine)
 
 class AdminGlobal(Trabajador):
     def crear_modelo(self, **kwargs):
@@ -63,4 +64,4 @@ class AdminGlobal(Trabajador):
         if cines is None:
             return None
 
-        return EmpleadoModel(usuario, cines)
+        return AdminGlobalModel(usuario, cines)
