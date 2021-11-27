@@ -5,6 +5,11 @@ from datetime import datetime
 from src.trabajador import Empleado, AdminGlobal, AdminLocal
 from src.modelos import *
 
+DOB_SUB = {
+    0: "Subtitulada",
+    1: "Doblada"
+}
+
 class LoginModel:
     """
         Clase que contiene la parte lógica del login y la carga de datos al programa.
@@ -163,7 +168,7 @@ class LoginModel:
                 id_ = int(row[3])
                 entradas_vendidas = int(row[4])
                 
-                pelicula = peliculas[nombre][id_]
+                pelicula = peliculas[id_]
                 horario = Horario(
                     datetime.fromtimestamp(inicio), 
                     datetime.fromtimestamp(inicio + (pelicula.duracion) * 60)
@@ -172,6 +177,7 @@ class LoginModel:
 
                 funcion = Funcion(horario, sala, pelicula, entradas_vendidas)
                 funciones.append(funcion)
+                pelicula.funciones.append(funcion)
                 sala.funciones.append(funcion)
 
                 print(funcion.horario.inicio, funcion.horario.final, funcion.sala.numero, funcion.sala.asientos_totales,
@@ -193,15 +199,11 @@ class LoginModel:
                 año = int(row[3])
                 generos = row[4].split(",")
                 precio = int(row[5])
-                dob_sub = row[6]
+                dob_sub = int(row[6])
 
-                pelicula = Pelicula(nombre, id_, duracion, año, generos, precio, dob_sub)
+                pelicula = Pelicula(nombre, id_, duracion, año, DOB_SUB[dob_sub], precio, generos)
 
-                pelicula_search = peliculas.get(nombre)
-                if pelicula_search is not None:
-                    peliculas[nombre][id_] = pelicula
-                else:
-                    peliculas[nombre] = {id_: pelicula}
+                peliculas[id_] = pelicula
 
                 print(pelicula.nombre, pelicula.id, pelicula.duracion, pelicula.año, pelicula.generos, pelicula.precio, pelicula.dob_sub)
 

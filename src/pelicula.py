@@ -8,3 +8,10 @@ class Pelicula:
         self.precio = precio
         self.generos = None # Deberia ser lista
         self.funciones = [] # Deberia ser treemap
+
+    def get_funcion(self, inicio):
+        for funcion in self.funciones:
+            if funcion.horario.inicio == inicio:
+                return funcion
+
+        return None

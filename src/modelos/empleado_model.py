@@ -1,8 +1,8 @@
-from typing import ClassVar
 import os
 import csv
 from datetime import datetime
 from src.horario import Horario
+
 class EmpleadoModel:
     """
         Clase que contiene la parte lógica del menú de un empleado.
@@ -13,6 +13,25 @@ class EmpleadoModel:
     def __init__(self, empleado, cine):
         self.empleado = empleado
         self.cine = cine
+
+        self.venta = None
+
+    def get_peliculas(self):
+        return self.cine.get_peliculas()
+
+    def get_funciones(self, id_pelicula):
+        return self.cine.get_funciones(id_pelicula)
+    
+    def guardar_venta(self, id_pelicula, inicio):
+        pelicula = self.cine.get_pelicula(id_pelicula)
+        funcion = pelicula.get_funcion(inicio)
+
+        if self.venta is None:
+            self.venta = Venta(funcion)
+        else:
+            self.venta.funcion = funcion
+
+        print(f"Pelicula almacenada: {self.venta.funcion.pelicula.nombre} Inicio: {self.venta.funcion.horario.inicio} Sala: {self.venta.funcion.sala.numero}")
 
     def mostrar_horario_mod(self):
         path = os.getcwd()
@@ -38,3 +57,9 @@ class EmpleadoModel:
             csv_file.seek(len(csv_file.read()))
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(data)
+
+
+class Venta:
+    def __init__(self, funcion, descuento = None):
+        self.funcion = funcion
+        self.descuento = descuento

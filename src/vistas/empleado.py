@@ -54,7 +54,8 @@ class SubPageEmpleado(Frame):
         label1.pack(pady=80)
         
         #Añade los botones de las distintas opciones
-        boton1 = Button(self, text="Vender entrada", font='Helvetica 10 bold', command=lambda:master.switch_frame(PageVentaEntrada))
+        boton1 = Button(self, text="Vender entrada", font='Helvetica 10 bold', command=lambda:self.controller.boton_vender_entrada())
+        #lambda:master.switch_frame(PageVentaEntrada))
         boton1.configure(bg="#ECEBE4")
         boton1.pack(pady=10)
         
@@ -89,12 +90,11 @@ class PageVentaEntrada(Frame):
         self.controller = master.controller
         Frame.__init__(self, master)
         self.configure(bg="#1C1C1C")
-        
+
         self.texto = StringVar()
         
-        lista_pelis = ["Peli1", "Peli2", "Peli3"]
-        lista_version = ["Subtitulada", "Doblada"]
-        lista_funciones = ["Horario1", "Horario2", "Horario3"]
+        self.lista_pelis = []
+        self.lista_funciones = []
         
         #Espacio en blanco, estética
         title = Label(self)
@@ -104,23 +104,16 @@ class PageVentaEntrada(Frame):
         label1 = Label(self, text="Seleccione película", font='Helvetica 10 bold')
         label1.configure(bg="#1C1C1C", fg="#ffffff")
         label1.pack(pady=10)  
-        self.combo1 = Combobox(self, state="readonly", values=lista_pelis)  
-        self.combo1.bind("<<ComboboxSelected>>", self._callback)                           
+        self.combo1 = Combobox(self, state="readonly", values=self.lista_pelis)  
+        self.combo1.bind("<<ComboboxSelected>>", self._callback_peliculas)                           
         self.combo1.pack()
-        
-        label2 = Label(self, text="Seleccione idioma disponible", font='Helvetica 10 bold')
-        label2.configure(bg="#1C1C1C", fg="#ffffff")
-        label2.pack(pady=10)
-        self.combo2 = Combobox(self, state="readonly", values=lista_version)    
-        self.combo2.bind("<<ComboboxSelected>>", self._callback)                              
-        self.combo2.pack()
     
         label3 = Label(self, text="Seleccione horario", font='Helvetica 10 bold')
         label3.configure(bg="#1C1C1C", fg="#ffffff")
         label3.pack(pady=10)  
-        self.combo3 = Combobox(self, state="readonly", values=lista_funciones)  
-        self.combo3.bind("<<ComboboxSelected>>", self._callback)                             
-        self.combo3.pack()
+        self.combo2 = Combobox(self, state="readonly", values=self.lista_funciones)  
+        self.combo2.bind("<<ComboboxSelected>>", self._callback_funciones)                             
+        self.combo2.pack()
         
         boton = Button(self, text="Datos de la compra", command=lambda:self.mostrar(self.combo1.get(), self.combo2.get(), self.combo3.get()))
         boton.pack(pady=20)
@@ -128,14 +121,25 @@ class PageVentaEntrada(Frame):
         etiqueta.configure(bg="#1C1C1C", fg="#ffffff")
         etiqueta.pack(pady=10)
         
-    def mostrar(self, opt1, opt2, opt3):
-        self.texto.set("Pelicula: " + opt1 + " . Idioma: "+ opt2 + " . Horario :"+ opt3)
+    def set_peliculas(self, peliculas: dict):
+        self.opciones_peliculas = peliculas
+
+        for pelicula in peliculas.keys():
+            self.combo1['values'] = (*self.combo1['values'], pelicula)
+
+    def set_funciones(self, funciones: dict):
+        self.opciones_funciones = funciones
+        self.combo2['values'] = ""
+
+        for funcion in funciones.keys():
+            self.combo2['values'] = (*self.combo2['values'], funcion)
         
-    def _callback(self, eventObject):
-        print(eventObject.widget)
-        #self.combo1['values'] = (*self.combo1['values'], eventObject.widget.get())
-        # if len(self.combo1.get()) > 0 and len(self.combo2.get()) > 0 and len(self.combo3.get()) > 0:
-        #     self.controller.actualizar_venta()
+    def _callback_peliculas(self, event_object):
+        self.controller.get_funciones(self.opciones_peliculas[event_object.widget.get()])
+
+    def _callback_funciones(self, event_object):
+        id_pelicula, inicio = self.opciones_funciones[event_object.widget.get()]
+        self.controller.guardar_venta(id_pelicula, inicio)
                 
         
         

@@ -4,3 +4,6 @@ class Funcion:
         self.sala = sala
         self.pelicula = pelicula
         self.entradas_vendidas = entradas_vendidas
+
+    def get_horario_inicio(self):
+        return self.horario.inicio

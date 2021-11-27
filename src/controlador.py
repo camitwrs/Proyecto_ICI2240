@@ -1,6 +1,6 @@
 from src.modelos.login import LoginModel
 from src.vistas.application import Aplicacion
-from src.vistas.empleado import PageEmpleado
+from src.vistas.empleado import PageEmpleado, PageVentaEntrada
 from src.vistas.admin_local import PageAdminLocal
 from src.vistas.admin_global import PageAdminGlobal
 
@@ -20,6 +20,7 @@ class Controller:
         self.model = model
         self.view.switch_frame(view)
 
+    """ FUNCIONES DE LOGIN """
     def ingresar(self, usuario: str, contraseña: str):
         """ 
             Función que recibe las credenciales de inicio de sesión desde la GUI y verifica en el model.
@@ -35,7 +36,29 @@ class Controller:
             self._switch_context(model, PageAdminLocal)
         elif usuario.cargo == "administrador_global":
             self._switch_context(model, PageAdminGlobal)
-            
+
+    
+    """ FUNCIONES DE EMPLEADO """
+    def boton_vender_entrada(self):
+        opciones_pelis = self.model.get_peliculas()
+        
+        if opciones_pelis is None:
+            self.view.throw_messagebox("VENTA", "Error. No hay películas disponibles")
+        else:
+            self.view.switch_frame(PageVentaEntrada)
+            self.view._frame.set_peliculas(opciones_pelis)
+
+    def get_funciones(self, id_pelicula: id):
+        opciones_funciones = self.model.get_funciones(id_pelicula)
+        
+        if len(opciones_funciones) == 0:
+            self.view.throw_messagebox("VENTA", "Error. No hay funciones disponibles")
+        else:
+            self.view._frame.set_funciones(opciones_funciones)
+
+    def guardar_venta(self, id_pelicula, inicio):
+        self.model.guardar_venta(id_pelicula, inicio)
+
     def mostrar_horario(self):
         self.model.mostrar_horario_mod()
         
