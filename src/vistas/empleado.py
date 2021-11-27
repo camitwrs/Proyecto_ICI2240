@@ -19,7 +19,7 @@ class PageEmpleado(Frame):
         boton1.configure(bg="#ECEBE4")
         boton1.pack(pady=10) 
         
-        boton2 = Button(self, text="Marcar asistencia", font='Helvetica 10 bold', command=lambda:self.marcar_asistencia)
+        boton2 = Button(self, text="Marcar asistencia", font='Helvetica 10 bold', command=lambda:self.controller.marcar_asistencia())
         boton2.configure(bg="#ECEBE4")
         boton2.pack(pady=10)
         
@@ -27,7 +27,7 @@ class PageEmpleado(Frame):
         boton3.configure(bg="#ECEBE4")
         boton3.pack(pady=10)
         
-        boton4 = Button(self, text="Ver horario", font='Helvetica 10 bold', command=lambda:self.mostrar_horario)
+        boton4 = Button(self, text="Ver horario", font='Helvetica 10 bold', command=lambda:self.controller.mostrar_horario())
         boton4.configure(bg="#ECEBE4")
         boton4.pack(pady=10)
         
@@ -37,8 +37,9 @@ class PageEmpleado(Frame):
     def informe_ventas(self):
         pass
     
-    def mostrar_horario(self):
-        pass
+    """def mostrar_horario(self):
+        pass"""
+        
 
 class SubPageEmpleado(Frame):
     def __init__(self, master):

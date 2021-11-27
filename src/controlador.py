@@ -35,3 +35,9 @@ class Controller:
             self._switch_context(model, PageAdminLocal)
         elif usuario.cargo == "administrador_global":
             self._switch_context(model, PageAdminGlobal)
+            
+    def mostrar_horario(self):
+        self.model.mostrar_horario_mod()
+        
+    def marcar_asistencia(self):
+        self.model.marcar_asistencia_mod()
