@@ -43,6 +43,6 @@ class PageLogin(Frame):
         boton_principal.pack(pady=10)
         
         #Añade el texto de recordatorio
-        reminder = Label(self, text="Recordar: RUT sin puntos ni dígito verificador.", font='Helvetica 8 ')
+        reminder = Label(self, text="Recordar: RUT sin puntos ni dígito verificador.", font='Helvetica 9')
         reminder.configure(bg="#1C1C1C", fg="#ffffff")
         reminder.pack(pady=80)

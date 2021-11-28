@@ -1,6 +1,6 @@
 from src.modelos.login import LoginModel
 from src.vistas.application import Aplicacion
-from src.vistas.empleado import PageEmpleado, PageVentaEntrada
+from src.vistas.empleado import PageDescuento, PageEmpleado, PageVentaEntrada
 from src.vistas.admin_local import PageAdminLocal
 from src.vistas.admin_global import PageAdminGlobal
 
@@ -48,6 +48,20 @@ class Controller:
             self.view.switch_frame(PageVentaEntrada)
             self.view._frame.set_peliculas(opciones_pelis)
 
+    def boton_aplicar_descuento(self):
+        self.view.switch_frame(PageDescuento)
+    
+    def boton_concretar_venta(self):
+        """
+        aquí debería haber código juasjuasjuas
+        """
+    
+    def boton_cancelar_venta(self):
+        """
+        aquí debería haber código juasjuasjuas
+        """
+        self.view.switch_frame(PageEmpleado)
+        
     def get_funciones(self, id_pelicula: id):
         opciones_funciones = self.model.get_funciones(id_pelicula)
         
