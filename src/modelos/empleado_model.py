@@ -10,11 +10,12 @@ class EmpleadoModel:
         crear una función con nombre similar en esta clase que retorne los datos que la vista
         necesita desplegar.
     """
-    def __init__(self, empleado, cine):
+    def __init__(self, empleado, cine, cupones):
         self.empleado = empleado
         self.cine = cine
+        self.cupones = cupones
 
-        self.venta = None
+        self.venta = Venta()
 
     def get_peliculas(self):
         return self.cine.get_peliculas()
@@ -26,10 +27,7 @@ class EmpleadoModel:
         pelicula = self.cine.get_pelicula(id_pelicula)
         funcion = pelicula.get_funcion(inicio)
 
-        if self.venta is None:
-            self.venta = Venta(funcion)
-        else:
-            self.venta.funcion = funcion
+        self.venta.funcion = funcion
 
         print(f"Pelicula almacenada: {self.venta.funcion.pelicula.nombre} Inicio: {self.venta.funcion.horario.inicio} Sala: {self.venta.funcion.sala.numero}")
 
@@ -37,7 +35,7 @@ class EmpleadoModel:
         path = os.getcwd()
         absolute_path = f"{path}\data\quilpue\empleados\\20272418\horarios.csv"
         horario = []
-        with open(absolute_path) as csv_file:
+        with open(absolute_path, "r") as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             next(csv_reader)
             
@@ -53,13 +51,23 @@ class EmpleadoModel:
         data = [nombre_usuario, hora_entrada.strftime("%H:%M")]
         path = os.getcwd()
         absolute_path = f"{path}\data\quilpue\empleados\\20272418\\asistencia.csv"
-        with open(absolute_path, 'w') as csv_file:
+        with open(absolute_path, 'r+') as csv_file:
             csv_file.seek(len(csv_file.read()))
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(data)
 
+    def verificar_cupon(self, codigo: str) -> bool:
+        cupon = self.cupones.get(codigo)
+
+        if cupon is not None:
+            if cupon.verificar():
+                self.venta.cupon = cupon
+                return True
+            
+        return False 
+
 
 class Venta:
-    def __init__(self, funcion, descuento = None):
+    def __init__(self, funcion = None, descuento = None):
         self.funcion = funcion
         self.descuento = descuento

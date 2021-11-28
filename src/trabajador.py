@@ -34,13 +34,16 @@ class Empleado(Trabajador):
     def crear_modelo(self, **kwargs):
         usuario = kwargs.get("usuario")
         cine = kwargs.get("cine")
+        cupones = kwargs.get("cupones")
 
         if usuario is None or not isinstance(usuario, Empleado):
             return None
         if cine is None or not isinstance(cine, Cine):
             return None
+        if cupones is None:
+            return None
 
-        return EmpleadoModel(usuario, cine)
+        return EmpleadoModel(usuario, cine, cupones)
 
 class AdminLocal(Trabajador):
     def crear_modelo(self, **kwargs):

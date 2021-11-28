@@ -1,6 +1,6 @@
 from src.modelos.login import LoginModel
 from src.vistas.application import Aplicacion
-from src.vistas.empleado import PageDescuento, PageEmpleado, PageVentaEntrada
+from src.vistas.empleado import PageEmpleado, SubPageEmpleado, PageDescuento, PageVentaEntrada
 from src.vistas.admin_local import PageAdminLocal
 from src.vistas.admin_global import PageAdminGlobal
 
@@ -48,7 +48,7 @@ class Controller:
             self.view.switch_frame(PageVentaEntrada)
             self.view._frame.set_peliculas(opciones_pelis)
 
-    def boton_aplicar_descuento(self):
+    def boton_aplicar_descuento(self) -> None:
         self.view.switch_frame(PageDescuento)
     
     def boton_concretar_venta(self):
@@ -78,3 +78,13 @@ class Controller:
         
     def marcar_asistencia(self):
         self.model.marcar_asistencia_mod()
+
+    def verificar_cupon(self, codigo: str) -> None:
+        cupon_valido = self.model.verificar_cupon(codigo)
+
+        if cupon_valido:
+            self.view.throw_messagebox("DESCUENTO", "El cupón de descuento ha sido aplicado con éxito")
+        else:
+            self.view.throw_messagebox("DESCUENTO", "El código de cupón de descuento ingresado no es válido")
+
+        self.view.switch_frame(SubPageEmpleado)

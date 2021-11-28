@@ -4,6 +4,7 @@ from datetime import datetime
 
 from src.trabajador import Empleado, AdminGlobal, AdminLocal
 from src.modelos import *
+from src.cupon import Cupon
 
 DOB_SUB = {
     0: "Subtitulada",
@@ -238,6 +239,22 @@ class LoginModel:
 
         return cines_dict
 
+    def _cargar_cupones(self):
+        cupones = {}
+        with open(f"data\cupones.csv") as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            next(csv_reader)
+
+            for row in csv_reader:
+                codigo = row[0]
+                porcentaje = int(row[1])
+                utilizado = bool(int(row[2]))
+
+                cupon = Cupon(codigo, porcentaje, utilizado)
+                cupones[cupon.codigo] = cupon
+
+        return cupones
+
     def ingresar(self, usuario: str, contraseña: str) -> object:
         """
             Recibe un usuario y contraseña, los cuáles verifica que coincidan con algún usuario del LoginModel.
@@ -258,9 +275,11 @@ class LoginModel:
                     )
                 else:
                     cine = self._cargar_cine(usuario.cine)
+                    cupones = self._cargar_cupones()
                     modelo = usuario.crear_modelo(
                         usuario = usuario,
-                        cine = cine
+                        cine = cine,
+                        cupones = cupones
                     )
                 
                 return usuario, modelo
