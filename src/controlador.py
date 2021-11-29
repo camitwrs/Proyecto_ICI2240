@@ -1,7 +1,7 @@
 from src.modelos.login import LoginModel
 from src.vistas.application import Aplicacion
 from src.vistas.empleado import PageEmpleado, SubPageEmpleado, PageDescuento, PageVentaEntrada
-from src.vistas.admin_local import PageAdminLocal
+from src.vistas.admin_local import PageAdminLocal, PageModificarEmpleados
 from src.vistas.admin_global import PageAdminGlobal
 
 
@@ -84,7 +84,22 @@ class Controller:
 
         if cupon_valido:
             self.view.throw_messagebox("DESCUENTO", "El cupón de descuento ha sido aplicado con éxito")
+            self.view.switch_frame(SubPageEmpleado)
         else:
             self.view.throw_messagebox("DESCUENTO", "El código de cupón de descuento ingresado no es válido")
 
-        self.view.switch_frame(SubPageEmpleado)
+
+
+    """ FUNCIONES DE ADMIN LOCAL """
+    def boton_modificar_empleados(self):
+        empleados = self.model.get_empleados()
+        
+        self.view.switch_frame(PageModificarEmpleados)
+        self.view._frame.set_empleados(empleados)
+
+    def eliminar_empleado(self):
+        selected_empleado = self.view._frame.selected_empleado
+        result = self.model.eliminar_empleado(selected_empleado[1])
+
+        if result:
+            self.view._frame.eliminar_empleado(selected_empleado[0])

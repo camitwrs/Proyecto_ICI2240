@@ -31,3 +31,13 @@ class Cine:
 
     def get_pelicula(self, id_pelicula):
         return self.peliculas[id_pelicula]
+
+    def get_empleados(self):
+        return self.trabajadores.items()
+
+    def eliminar_empleado(self, rut):
+        try:
+            self.trabajadores.pop(rut)
+            return True
+        except:
+            return False

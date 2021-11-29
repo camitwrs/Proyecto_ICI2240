@@ -128,6 +128,8 @@ class LoginModel:
                 empleado.horarios = self._cargar_horarios(cine_folder, rut)
                 empleado.asistencia = self._cargar_asistencia(cine_folder, rut)
 
+                trabajadores_cine[empleado.rut] = empleado
+
                 print(empleado.nombre, empleado.sueldo, empleado.ventas)
 
                 for horario in empleado.horarios:

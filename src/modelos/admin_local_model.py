@@ -8,3 +8,22 @@ class AdminLocalModel:
     def __init__(self, empleado, cine):
         self.empleado = empleado
         self.cine = cine
+
+    def get_empleados(self):
+        empleados_list = []
+        empleados = self.cine.get_empleados()
+
+        for empleado in empleados:
+            datos_tupla = (empleado[0], empleado[1].nombre, empleado[1].sueldo)
+            empleados_list.append(datos_tupla)    
+
+        return empleados_list
+
+    def eliminar_empleado(self, rut):
+        result = self.cine.eliminar_empleado(rut)
+
+        if result: 
+            """ SE BORRA DEL CSV EMPLEADOS.CSV Y LA CARPETA DEL EMPLEADO """
+            pass
+            
+        return result

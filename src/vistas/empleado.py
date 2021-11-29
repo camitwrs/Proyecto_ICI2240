@@ -142,6 +142,7 @@ class PageVentaEntrada(Frame):
             self.combo2['values'] = (*self.combo2['values'], funcion)
         
     def _callback_peliculas(self, event_object):
+        self.combo2.set("")
         self.controller.get_funciones(self.opciones_peliculas[event_object.widget.get()])
 
     def _callback_funciones(self, event_object):
