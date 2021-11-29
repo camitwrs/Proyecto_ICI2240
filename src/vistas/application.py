@@ -28,3 +28,6 @@ class Aplicacion(Tk):
 
     def throw_messagebox(self, title: str, message: str):
         messagebox.showinfo(title, message)
+
+    def throw_question(self, title: str, message: str):
+        return messagebox.askokcancel(title, message)

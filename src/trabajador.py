@@ -45,6 +45,31 @@ class Empleado(Trabajador):
 
         return EmpleadoModel(usuario, cine, cupones)
 
+    def get_horario_semana(self):
+        """
+            Retorna una lista con los horarios del empleado que correspondan
+        """
+        horarios = []
+
+        for horario in self.horarios:
+            if horario.same_week():
+                horarios.append(horario)
+            else:
+                print(f"{horario.inicio} no corresponde a un horario en la misma semana")
+
+        return horarios
+
+    def get_horario_actual(self):
+        """
+            Verifica si la hora actual corresponde a un horario de trabajo válido (según horarios en self.horarios)
+            Retorna la hora de inicio del horario si es un horario válido y None en caso contrario.
+        """
+        for horario in self.horarios:
+            if horario.is_horario_actual():
+                return horario.inicio
+
+        return None
+
 class AdminLocal(Trabajador):
     def crear_modelo(self, **kwargs):
         usuario = kwargs.get("usuario")

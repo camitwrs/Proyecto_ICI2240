@@ -52,14 +52,16 @@ class Controller:
         self.view.switch_frame(PageDescuento)
     
     def boton_concretar_venta(self):
-        """
-        aquí debería haber código juasjuasjuas
-        """
+        boleta = self.model.concretar_venta()
+
+        boleta = f"Película {boleta['nombre_pelicula']}\nSala: {boleta['sala']}\nHora inicio: {boleta['hora_inicio']}\nPrecio: {int(boleta['precio'])}"
+        result = self.view.throw_question("Boleta", boleta)
+        
+        if result:
+            self.model.concretar_venta_confirmacion()
     
     def boton_cancelar_venta(self):
-        """
-        aquí debería haber código juasjuasjuas
-        """
+        self.model.cancelar_venta()
         self.view.switch_frame(PageEmpleado)
         
     def get_funciones(self, id_pelicula: id):
@@ -77,7 +79,14 @@ class Controller:
         self.model.mostrar_horario_mod()
         
     def marcar_asistencia(self):
-        self.model.marcar_asistencia_mod()
+        result = self.model.marcar_asistencia_mod()
+
+        if result:
+            # Mensaje de exito
+            pass
+        else:
+            # Mensaje de que no tiene que trabajar actualmente, tonces no se marca asistencia.
+            pass
 
     def verificar_cupon(self, codigo: str) -> None:
         cupon_valido = self.model.verificar_cupon(codigo)

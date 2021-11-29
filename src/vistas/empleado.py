@@ -66,7 +66,6 @@ class SubPageEmpleado(Frame):
         
         #Añade los botones de las distintas opciones
         boton1 = Button(self, text="1. Vender entrada", font='Helvetica 10 bold', command=lambda:self.controller.boton_vender_entrada())
-        #lambda:master.switch_frame(PageVentaEntrada))
         boton1.configure(bg="#ECEBE4")
         boton1.pack(pady=10)
         
@@ -81,18 +80,7 @@ class SubPageEmpleado(Frame):
         boton4 = Button(self, text="Cancelar venta", font='Helvetica 10 bold', command=lambda:self.controller.boton_cancelar_venta())
         boton4.configure(bg="#ECEBE4")
         boton4.pack(pady=10) 
-        
-    """
-    def venta_entrada(self):
-        pass
-    """    
-    """
-    def concretar_venta(self):
-        pass
-    
-    def cancelar_venta(self):
-        pass
-    """
+
     
 class PageVentaEntrada(Frame):
     def __init__(self, master):

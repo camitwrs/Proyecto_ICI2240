@@ -7,3 +7,15 @@ class Funcion:
 
     def get_horario_inicio(self):
         return self.horario.inicio
+
+    def get_nombre_pelicula(self):
+        return self.pelicula.nombre
+
+    def get_numero_sala(self):
+        return self.sala.numero
+
+    def get_tamaño_sala(self):
+        return self.sala.asientos_totales
+        
+    def get_precio(self):
+        return self.pelicula.precio
