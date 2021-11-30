@@ -1,5 +1,7 @@
 from tkinter import Frame, Label, Button, StringVar, Entry
 from tkinter.ttk import Combobox
+
+
 class PageEmpleado(Frame):
     def __init__(self, master):
         self.controller = master.controller
@@ -29,15 +31,6 @@ class PageEmpleado(Frame):
         boton4 = Button(self, text="Ver horario", font='Helvetica 10 bold', command=lambda:self.controller.mostrar_horario())
         boton4.configure(bg="#ECEBE4")
         boton4.pack(pady=10)
-        
-    def marcar_asistencia(self):
-        pass
-    
-    def informe_ventas(self):
-        pass
-    
-    """def mostrar_horario(self):
-        pass"""
         
 
 class SubPageEmpleado(Frame):

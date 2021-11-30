@@ -42,9 +42,13 @@ class EmpleadoModel:
 
     def mostrar_horario_mod(self):
         horarios = self.empleado.get_horario_semana()
+        horarios_concatenados = ""
 
         for horario in horarios:
+            horarios_concatenados += f"Fecha:{horario.inicio.strftime('%d/%m')} Hora ingreso:{horario.inicio} Hora salida:{horario.final}\n"
             print("Fecha:", horario.inicio.strftime("%d/%m"), "Hora ingreso:", horario.inicio, "Hora salida:", horario.final)
+
+        return horarios_concatenados
                 
     def marcar_asistencia_mod(self):
         horario = self.empleado.get_horario_actual()
@@ -64,15 +68,17 @@ class EmpleadoModel:
                 writer = csv.DictWriter(tempfile, fieldnames=fields, lineterminator='\n')
                 for row in reader:
                     if row['horario_inicio'] == str(unixtime):
+                        if row['asistencia'] == "1":
+                            return (False, "Ya ha registrado la asistencia.")
                         row['horario_inicio'], row['asistencia'] = unixtime, 1
                     row = {'horario_inicio': row['horario_inicio'], 'asistencia': row['asistencia']}
                     writer.writerow(row)
 
             shutil.move(tempfile.name, absolute_path)
 
-            return True
+            return (True, "Se ha marcado la asistencia con éxito")
         else:
-            return False
+            return (False, "No hay horarios que mostrar.")
 
     def verificar_cupon(self, codigo: str) -> bool:
         cupon = self.cupones.get(codigo)

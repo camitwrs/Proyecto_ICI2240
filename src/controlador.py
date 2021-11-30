@@ -26,11 +26,15 @@ class Controller:
             Función que recibe las credenciales de inicio de sesión desde la GUI y verifica en el model.
             Si las credenciales son correctas, se despliega el menú correspondiente según el cargo.
         """
-        usuario, model = self.model.ingresar(usuario, contraseña)
+        output = self.model.ingresar(usuario, contraseña)
 
-        if usuario is None or model is None:
-            self.view.throw_messagebox("LOGIN", "Error. Inténtelo nuevamente")
-        elif usuario.cargo == "empleado":
+        if output is None:
+            self.view.throw_error("LOGIN", "Error. Inténtelo nuevamente")
+            return
+        else:
+            usuario, model = output
+        
+        if usuario.cargo == "empleado":
             self._switch_context(model, PageEmpleado)
         elif usuario.cargo == "administrador_local":
             self._switch_context(model, PageAdminLocal)
@@ -76,17 +80,18 @@ class Controller:
         self.model.guardar_venta(id_pelicula, inicio)
 
     def mostrar_horario(self):
-        self.model.mostrar_horario_mod()
+        horarios_concatenados = self.model.mostrar_horario_mod()
+
+        if len(horarios_concatenados) > 0:
+            self.view.throw_messagebox("HORARIOS", horarios_concatenados)
         
     def marcar_asistencia(self):
         result = self.model.marcar_asistencia_mod()
 
-        if result:
-            # Mensaje de exito
-            pass
+        if result[0]:
+            self.view.throw_messagebox("ASISTENCIA", result[1])
         else:
-            # Mensaje de que no tiene que trabajar actualmente, tonces no se marca asistencia.
-            pass
+            self.view.throw_error("ASISTENCIA", result[1])
 
     def verificar_cupon(self, codigo: str) -> None:
         cupon_valido = self.model.verificar_cupon(codigo)

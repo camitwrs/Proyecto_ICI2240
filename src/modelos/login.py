@@ -286,5 +286,5 @@ class LoginModel:
                 
                 return usuario, modelo
         else:
-            return None, None
+            return None
 
