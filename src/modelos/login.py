@@ -61,8 +61,10 @@ class LoginModel:
         with open(f"{cine_folder}\\ventas.csv") as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             next(csv_reader) # Se salta la línea que contiene el nombre de los campos
-
+            
             for row in csv_reader:
+                if len(row) == 0:
+                    continue
                 #empleado = row[0]
                 #fecha = row[1]
                 precio = row[2]

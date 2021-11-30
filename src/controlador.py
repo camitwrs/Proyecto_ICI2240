@@ -62,11 +62,11 @@ class Controller:
             self.view.throw_error("VENTA", "Ha ocurrido un error al procesar la venta.")
             return
 
-        boleta = f"Película {boleta['nombre_pelicula']}\nSala: {boleta['sala']}\nHora inicio: {boleta['hora_inicio']}\nPrecio: {int(boleta['precio'])}"
-        result = self.view.throw_question("BOLETA", boleta)
+        boleta_concatenada = f"Película {boleta['nombre_pelicula']}\nSala: {boleta['sala']}\nHora inicio: {boleta['hora_inicio']}\nPrecio: {int(boleta['precio'])}"
+        result = self.view.throw_question("BOLETA", boleta_concatenada)
         
         if result:
-            self.model.concretar_venta_confirmacion()
+            self.model.concretar_venta_confirmacion(boleta)
             self.view.throw_messagebox("VENTA", "La venta ha sido realizada con éxito.")
             self.view.switch_frame(PageEmpleado)
     

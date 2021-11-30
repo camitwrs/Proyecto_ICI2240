@@ -2,9 +2,8 @@ import os
 import csv
 import time
 import shutil
-from tempfile import NamedTemporaryFile
 from datetime import datetime
-from src.horario import Horario
+from tempfile import NamedTemporaryFile
 
 class EmpleadoModel:
     """
@@ -20,11 +19,41 @@ class EmpleadoModel:
 
         self.venta = Venta()
 
-    def _registrar_venta(self):
+    def _registrar_venta(self, datos_venta: list, boleta: dict):
         """
             Se guardan los datos de la venta en los archivos csv correspondientes.
         """
-        pass
+        path = os.getcwd()
+        absolute_path_ventas = f"{path}\data\{self.empleado.cine}\\ventas.csv"
+        absolute_path_funciones = f"{path}\data\{self.empleado.cine}\\funciones.csv"
+
+        with open(absolute_path_ventas, 'a', newline='') as csv_file:
+            writer = csv.writer(csv_file, lineterminator='\n')
+            writer.writerow(datos_venta)
+
+            csv_file.close()
+
+        tempfile = NamedTemporaryFile(mode='a', delete=False)
+        fields = ['inicio', 'sala', 'nombre', 'id', 'entradas_vendidas']
+
+        with open(absolute_path_funciones, 'r+', newline='') as csvfile, tempfile:
+            reader = csv.DictReader(csvfile, fieldnames=fields)
+            writer = csv.DictWriter(tempfile, fieldnames=fields, lineterminator='\n')
+            for row in reader:
+                if row['inicio'] == str(int(time.mktime(boleta['hora_inicio'].timetuple()))):
+                    if row['sala'] == str(boleta['sala']):
+                        if row['nombre'] == boleta['nombre_pelicula']:
+                            row['entradas_vendidas'] = int(row['entradas_vendidas']) + 1
+                row = {
+                    'inicio': row['inicio'], 
+                    'sala': row['sala'], 
+                    'nombre': row['nombre'], 
+                    'id': row['id'], 
+                    'entradas_vendidas': row['entradas_vendidas']
+                }
+                writer.writerow(row)
+
+        shutil.move(tempfile.name, absolute_path_funciones)
 
     def get_peliculas(self):
         return self.cine.get_peliculas()
@@ -100,12 +129,19 @@ class EmpleadoModel:
 
         return None
 
-    def concretar_venta_confirmacion(self):
+    def concretar_venta_confirmacion(self, boleta: dict):
         """
             Función que se llama luego de que el empleado confirma la boleta.
         """
         self.venta.aumentar_entradas_vendidas()
-        self._registrar_venta()
+
+        datos_venta = [
+            self.empleado.rut, 
+            int(time.mktime(datetime.now().timetuple())), 
+            boleta['precio']
+            ]
+
+        self._registrar_venta(datos_venta, boleta)
 
         self.venta.funcion = None
         self.venta.descuento = None
@@ -155,3 +191,5 @@ class Venta:
 
     def aumentar_entradas_vendidas(self):
         self.funcion.entradas_vendidas += 1
+
+
