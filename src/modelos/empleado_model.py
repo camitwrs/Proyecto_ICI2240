@@ -45,7 +45,7 @@ class EmpleadoModel:
         horarios_concatenados = ""
 
         for horario in horarios:
-            horarios_concatenados += f"Fecha:{horario.inicio.strftime('%d/%m')} Hora ingreso:{horario.inicio} Hora salida:{horario.final}\n"
+            horarios_concatenados += f"{horario.inicio.strftime('%d/%m')}\nHora ingreso: {horario.inicio.strftime('%H:%M')} Hora salida: {horario.final.strftime('%H:%M')}\n\n"
             print("Fecha:", horario.inicio.strftime("%d/%m"), "Hora ingreso:", horario.inicio, "Hora salida:", horario.final)
 
         return horarios_concatenados

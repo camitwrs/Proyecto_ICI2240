@@ -58,14 +58,21 @@ class Controller:
     def boton_concretar_venta(self):
         boleta = self.model.concretar_venta()
 
+        if boleta is None:
+            self.view.throw_error("VENTA", "Ha ocurrido un error al procesar la venta.")
+            return
+
         boleta = f"Película {boleta['nombre_pelicula']}\nSala: {boleta['sala']}\nHora inicio: {boleta['hora_inicio']}\nPrecio: {int(boleta['precio'])}"
-        result = self.view.throw_question("Boleta", boleta)
+        result = self.view.throw_question("BOLETA", boleta)
         
         if result:
             self.model.concretar_venta_confirmacion()
+            self.view.throw_messagebox("VENTA", "La venta ha sido realizada con éxito.")
+            self.view.switch_frame(PageEmpleado)
     
     def boton_cancelar_venta(self):
         self.model.cancelar_venta()
+        self.view.throw_messagebox("VENTA", "La venta ha sido cancelada.")
         self.view.switch_frame(PageEmpleado)
         
     def get_funciones(self, id_pelicula: id):

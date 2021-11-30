@@ -155,6 +155,6 @@ class PageDescuento(Frame):
                                 font='Helvetica 10 bold')
         boton_verificar.pack(pady=10)
         
-        retroceder = Button(self, text="Confirmar", font='Helvetica 10 bold', command=master.switch_frame(SubPageEmpleado))
+        retroceder = Button(self, text="Confirmar", font='Helvetica 10 bold', command=lambda:master.switch_frame(SubPageEmpleado))
         retroceder.configure(bg="#9FA0FF")
         retroceder.pack(pady=10)
