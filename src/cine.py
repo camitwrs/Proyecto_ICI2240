@@ -1,3 +1,6 @@
+from src.trabajador import Empleado
+
+
 class Cine:
     def __init__(self, nombre, total_ventas, trabajadores, peliculas, salas):
         self.nombre = nombre
@@ -35,9 +38,24 @@ class Cine:
     def get_empleados(self):
         return self.trabajadores.items()
 
+    def existe_empleado(self, rut: str):
+        if self.trabajadores.get(rut) is None:
+            return False
+
+        return True
+
     def eliminar_empleado(self, rut):
         try:
             self.trabajadores.pop(rut)
             return True
         except:
             return False
+
+    def añadir_empleado(self, rut: str, contraseña: str, nombre: str, sueldo: str):
+        empleado = Empleado(rut, contraseña, "empleado", self.nombre)
+        empleado.nombre = nombre
+        empleado.sueldo = int(sueldo)
+
+        self.trabajadores[empleado.rut] = empleado
+
+        return empleado

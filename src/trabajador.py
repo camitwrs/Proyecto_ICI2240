@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from .cine import Cine
 from src.modelos.empleado_model import EmpleadoModel
 from src.modelos.admin_local_model import AdminLocalModel
 from src.modelos.admin_global_model import AdminGlobalModel
@@ -36,11 +35,7 @@ class Empleado(Trabajador):
         cine = kwargs.get("cine")
         cupones = kwargs.get("cupones")
 
-        if usuario is None or not isinstance(usuario, Empleado):
-            return None
-        if cine is None or not isinstance(cine, Cine):
-            return None
-        if cupones is None:
+        if usuario is None or cine is None or cupones is None:
             return None
 
         return EmpleadoModel(usuario, cine, cupones)
@@ -75,9 +70,7 @@ class AdminLocal(Trabajador):
         usuario = kwargs.get("usuario")
         cine = kwargs.get("cine")
 
-        if usuario is None or not isinstance(usuario, AdminLocal):
-            return None
-        if cine is None or not isinstance(cine, Cine):
+        if usuario is None or cine is None:
             return None
 
         return AdminLocalModel(usuario, cine)
@@ -87,9 +80,7 @@ class AdminGlobal(Trabajador):
         usuario = kwargs.get("usuario")
         cines = kwargs.get("cines")
 
-        if usuario is None or not isinstance(usuario, AdminGlobal):
-            return None
-        if cines is None:
+        if usuario is None or cines is None:
             return None
 
         return AdminGlobalModel(usuario, cines)

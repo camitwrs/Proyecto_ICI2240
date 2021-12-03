@@ -120,7 +120,27 @@ class Controller:
 
     def eliminar_empleado(self):
         selected_empleado = self.view._frame.selected_empleado
+        if selected_empleado is None:
+            self.view.throw_error("Error", "Por favor selecciona uno de los empleados en la lista de abajo antes de hacer click en el botón.")
+            return
+
         result = self.model.eliminar_empleado(selected_empleado[1])
 
         if result:
             self.view._frame.eliminar_empleado(selected_empleado[0])
+
+    def añadir_empleado(self, rut, contraseña, nombre_completo, sueldo):
+        if len(rut) == 0 or len(contraseña) == 0 or len(nombre_completo) == 0 or len(sueldo) == 0:
+            self.view.throw_error("Error", "Al menos uno de los campos de información necesarios para agregar al empleado está vacio.")
+            return
+
+        if not rut.isdigit() or not sueldo.isdigit():
+            self.view.throw_error("Error", "El valor ingresado para el rut o el sueldo no es válido. Asegurate que corresponde a un número entero.")
+            return
+
+        empleado = self.model.añadir_empleado(rut, contraseña, nombre_completo, sueldo)
+        
+        if empleado is not None:
+            self.view._frame.añadir_empleado(empleado)
+        else:
+            self.view.throw_error("Error", "El empleado a agregar ya tiene una cuenta creada en el sistema.")

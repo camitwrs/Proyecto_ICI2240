@@ -1,4 +1,4 @@
-from tkinter import Frame, Label, Button, END
+from tkinter import Frame, Label, Button, END, StringVar, Entry
 from tkinter import ttk
 
 
@@ -47,10 +47,74 @@ class PageModificarEmpleados(ttk.Frame):
         Frame.__init__(self, master)
         self.configure(bg="#1C1C1C")
 
+        #Añade el texto para ingresar rut en el frame
+        self.texto_rut = Label(self, text="RUT:", font='Helvetica 12 bold')
+        self.texto_rut.configure(bg="#1C1C1C", fg="#ffffff")
+        self.texto_rut.grid(row=0, column=0)
+        #texto_rut.pack()
+        
+        # #Añade la entrada para el rut del usuario
+        self.rut = StringVar()
+        self.entry_rut = Entry(self, width=20, textvariable=self.rut)
+        self.entry_rut.configure(bg="#DADDD8")
+        self.entry_rut.grid(row=0, column=1)
+        #entry_rut.pack(pady=10) 
+
+        # #Añade el texto para ingresar rut en el frame
+        self.texto_nombre = Label(self, text="Nombre completo:", font='Helvetica 12 bold')
+        self.texto_nombre.configure(bg="#1C1C1C", fg="#ffffff")
+        self.texto_nombre.grid(row=1, column=0)
+        # texto_nombre.pack()
+        
+        # #Añade la entrada para el rut del usuario
+        self.nombre = StringVar()
+        self.entry_usuario = Entry(self, width=20, textvariable=self.nombre)
+        self.entry_usuario.configure(bg="#DADDD8")
+        self.entry_usuario.grid(row=1, column=1)
+        #entry_usuario.pack(pady=10) 
+
+        # #Añade el texto para ingresar rut en el frame
+        self.texto_contraseña = Label(self, text="Contraseña:", font='Helvetica 12 bold')
+        self.texto_contraseña.configure(bg="#1C1C1C", fg="#ffffff")
+        self.texto_contraseña.grid(row=2, column=0)
+        # texto_contraseña.pack()
+        
+        # #Añade la entrada para el rut del usuario
+        self.contraseña = StringVar()
+        self.entry_contraseña = Entry(self, width=20, textvariable=self.contraseña)
+        self.entry_contraseña.configure(bg="#DADDD8")
+        self.entry_contraseña.grid(row=2, column=1)
+        #entry_contraseña.pack(pady=10) 
+
+        # #Añade el texto para ingresar rut en el frame
+        self.texto_sueldo = Label(self, text="Sueldo:", font='Helvetica 12 bold')
+        self.texto_sueldo.configure(bg="#1C1C1C", fg="#ffffff")
+        self.texto_sueldo.grid(row=3, column=0)
+        # texto_sueldo.pack()
+        
+        # #Añade la entrada para el rut del usuario
+        self.sueldo = StringVar()
+        self.entry_sueldo = Entry(self, width=20, textvariable=self.sueldo)
+        self.entry_sueldo.configure(bg="#DADDD8")
+        self.entry_sueldo.grid(row=3, column=1)
+        # entry_sueldo.pack(pady=10) 
+
+        self.boton_añadir_empleado = Button(self, 
+                                            text="Añadir empleado", 
+                                            font='Helvetica 10 bold', 
+                                            command=lambda:self.controller.añadir_empleado(
+                                                self.rut.get(),
+                                                self.contraseña.get(),
+                                                self.nombre.get(),
+                                                self.sueldo.get()
+                                            ))
+        self.boton_añadir_empleado.configure(bg="#9FA0FF")
+        self.boton_añadir_empleado.grid(row=2, column=2, padx=20)
+
         self.boton_eliminar_empleado = Button(self, text="Eliminar empleado", font='Helvetica 10 bold', command=lambda:self.controller.eliminar_empleado())
         self.boton_eliminar_empleado.configure(bg="#9FA0FF")
-        self.boton_eliminar_empleado.pack(pady=10)
-
+        self.boton_eliminar_empleado.grid(row=3, column=2, padx=20)
+        #self.boton_eliminar_empleado.pack(pady=10)
 
         self.treeview = ttk.Treeview(self, columns=("id", "nombre", "sueldo"))
         self.treeview.tag_bind(
@@ -60,11 +124,13 @@ class PageModificarEmpleados(ttk.Frame):
         self.treeview.heading("#1", text="NOMBRE")
         self.treeview.heading("#2", text="SUELDO")
 
-        self.treeview.pack()
+        self.treeview.grid(row=4, column=0, rowspan=10, columnspan=10)
+        #self.treeview.pack()
 
         self.boton_retroceder = Button(self, text="Confirmar", font='Helvetica 10 bold', command=lambda:master.switch_frame(PageAdminLocal))
         self.boton_retroceder.configure(bg="#9FA0FF")
-        self.boton_retroceder.pack(pady=10)
+        self.boton_retroceder.grid(row=15, column=1, pady=40)
+        #self.boton_retroceder.pack(pady=10)
 
         self.pack()
 
@@ -78,13 +144,25 @@ class PageModificarEmpleados(ttk.Frame):
 
             print(item)
 
+    def añadir_empleado(self, empleado):
+        item = self.treeview.insert("",
+                             END,
+                             text=empleado.rut,
+                            values=(empleado.nombre, empleado.sueldo),
+                            tags=("selected"))
+        print(item)
+
     def item_selected(self, event):
         curl_item = self.treeview.focus()
 
         self.selected_empleado = (curl_item, self.treeview.item(curl_item)['text'])
 
     def eliminar_empleado(self, curl_item):
-        self.treeview.delete(curl_item)
+        try:
+            self.treeview.delete(curl_item)
+            self.selected_empleado = None
+        except:
+            pass
 
 
 
