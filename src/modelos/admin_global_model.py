@@ -80,3 +80,16 @@ class AdminGlobalModel:
                 writer.writerow(row)
 
         shutil.move(tempfile.name, abs_path_peliculas)
+        
+    def agregar_admin_local (self): #deberia recibir (self, nombre_cine)
+        rut = "12245184"
+        contraseña = "qps2021"
+        nombre_cine = "vina_del_mar"
+        path = os.getcwd()
+        abs_path_credenciales = f"{path}\data\\credenciales.csv"
+        
+        with open(abs_path_credenciales, 'a', newline='') as csv_file:
+            writer = csv.writer(csv_file, lineterminator='\n')
+            writer.writerow((rut, contraseña, "administrador_local", self.cine.nombre))
+
+            csv_file.close()
