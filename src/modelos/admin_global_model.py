@@ -1,8 +1,8 @@
 import os
 import random
 import string
-import shutil
 import csv
+import shutil
 from tempfile import NamedTemporaryFile
 from src.cupon import Cupon
 
@@ -44,3 +44,39 @@ class AdminGlobalModel:
             return True
         else:
             return False
+
+    def get_precios_peliculas(self):
+        items = []
+        for cine in self.cines.values():
+            peliculas = cine.get_precios_peliculas()
+            
+            for pelicula in peliculas:
+                if pelicula.dob_sub:
+                    formato = "Doblada"
+                else:
+                    formato = "Subtitulada"
+
+                item = (pelicula.id, pelicula.nombre, cine.nombre, formato, pelicula.precio) 
+                items.append(item)
+
+        return items
+
+    def modificar_precio(self, id_pelicula, nombre_cine, precio):
+        cine = self.cines.get(nombre_cine)
+
+        cine.modificar_precio(id_pelicula, precio)
+
+        path = os.getcwd()
+        abs_path_peliculas = f"{path}\data\{nombre_cine}\\peliculas.csv"
+        tempfile = NamedTemporaryFile(mode='a', delete=False)
+        fields = ['nombre', 'id', 'duracion', 'año', 'generos', 'precio', 'dob_sub']
+
+        with open(abs_path_peliculas, 'r+', newline='') as csvfile, tempfile:
+            reader = csv.DictReader(csvfile, fieldnames=fields)
+            writer = csv.DictWriter(tempfile, fieldnames=fields, lineterminator='\n')
+            for row in reader:
+                if row['id'] == str(id_pelicula):  
+                    row['precio'] = precio
+                writer.writerow(row)
+
+        shutil.move(tempfile.name, abs_path_peliculas)

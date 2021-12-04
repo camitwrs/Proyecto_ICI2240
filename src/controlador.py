@@ -2,7 +2,7 @@ from src.modelos.login import LoginModel
 from src.vistas.application import Aplicacion
 from src.vistas.empleado import PageEmpleado, SubPageEmpleado, PageDescuento, PageVentaEntrada
 from src.vistas.admin_local import PageAdminLocal, PageModificarEmpleados, PageModificarSalas
-from src.vistas.admin_global import PageAdminGlobal
+from src.vistas.admin_global import PageAdminGlobal, PageModificarPrecio
 
 
 class Controller:
@@ -184,3 +184,26 @@ class Controller:
             self.view.throw_messagebox("Exito", "Los cupones han sido generados con éxito.")
         else:
             self.view.throw_error("Error", "Ha occurido un error al generar los cupones.")
+
+    def boton_modificar_precios(self):
+        self.view.switch_frame(PageModificarPrecio)
+
+        peliculas = self.model.get_precios_peliculas()
+        if len(peliculas) > 0:
+            self.view._frame.set_peliculas(peliculas)
+
+    def modificar_precio(self, precio):
+        selected_pelicula = self.view._frame.selected_pelicula
+        if selected_pelicula is None:
+            self.view.throw_error("Error", "Por favor selecciona alguna de las películas antes de presionar el botón.")
+            return
+        if len(precio) == 0:
+            self.view.throw_error("Error", "El campo del precio se encuentra vacio.")
+            return
+        if not precio.isdigit():
+            self.view.throw_error("Error", "Por favor asegura que el precio corresponde a un número entero")
+            return
+
+        self.model.modificar_precio(selected_pelicula[1]['text'], selected_pelicula[1]['values'][1], int(precio))
+        selected_pelicula[1]['values'][3] = int(precio)
+        self.view._frame.update_pelicula(selected_pelicula[0], selected_pelicula[1]['text'], selected_pelicula[1]['values'])

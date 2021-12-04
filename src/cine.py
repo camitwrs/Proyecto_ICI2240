@@ -9,7 +9,7 @@ class Cine:
         self.peliculas = peliculas
         self.salas = salas
 
-    def get_peliculas(self) -> dict:
+    def get_opciones_peliculas(self) -> dict:
         opciones_pelis = {}
         peliculas = self.peliculas.values()
 
@@ -83,3 +83,11 @@ class Cine:
 
         if sala is not None:
             sala.estado = False
+
+    def get_precios_peliculas(self):
+        return self.peliculas.values()
+
+    def modificar_precio(self, id_pelicula, precio):
+        pelicula = self.peliculas.get(id_pelicula)
+
+        pelicula.precio = precio

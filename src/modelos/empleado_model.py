@@ -56,7 +56,7 @@ class EmpleadoModel:
         shutil.move(tempfile.name, absolute_path_funciones)
 
     def get_peliculas(self):
-        return self.cine.get_peliculas()
+        return self.cine.get_opciones_peliculas()
 
     def get_funciones(self, id_pelicula):
         return self.cine.get_funciones(id_pelicula)
