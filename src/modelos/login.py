@@ -151,7 +151,7 @@ class LoginModel:
             for row in csv_reader:
                 numero = int(row[0])
                 asientos_totales = int(row[1])
-                estado = bool(row[2])
+                estado = bool(int(row[2]))
                 funciones = []
 
                 sala = Sala(numero, asientos_totales, estado, funciones=funciones)

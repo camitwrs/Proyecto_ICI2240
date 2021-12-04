@@ -59,3 +59,27 @@ class Cine:
         self.trabajadores[empleado.rut] = empleado
 
         return empleado
+
+    def get_salas(self):
+        opciones_salas = {}
+        for sala in self.salas.values():
+            if sala.estado:
+                estado = "Habilitada"
+            else:
+                estado = "Deshabilitada"
+
+            opciones_salas[sala.numero] = (sala.numero, sala.asientos_totales, estado)
+
+        return opciones_salas
+
+    def habilitar_sala(self, id):
+        sala = self.salas.get(int(id))
+
+        if sala is not None:
+            sala.estado = True
+
+    def deshabilitar_sala(self, id):
+        sala = self.salas.get(int(id))
+
+        if sala is not None:
+            sala.estado = False

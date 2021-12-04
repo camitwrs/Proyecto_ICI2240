@@ -31,7 +31,7 @@ class PageAdminLocal(Frame):
         boton5 = Button(self, text="Administar horario", font='Helvetica 10 bold', command=lambda:self.mostrar_horario)
         boton5.configure(bg="#ECEBE4")
         boton5.pack(pady=10)
-        boton6 = Button(self, text="Modificar salas", font='Helvetica 10 bold', command=lambda:self.mostrar_horario)
+        boton6 = Button(self, text="Modificar salas", font='Helvetica 10 bold', command=lambda:self.controller.boton_modificar_salas())
         boton6.configure(bg="#ECEBE4")
         boton6.pack(pady=10)
         
@@ -142,7 +142,6 @@ class PageModificarEmpleados(ttk.Frame):
                                 values=(empleado[1], empleado[2]),
                                 tags=("selected"))
 
-            print(item)
 
     def añadir_empleado(self, empleado):
         item = self.treeview.insert("",
@@ -165,6 +164,64 @@ class PageModificarEmpleados(ttk.Frame):
             pass
 
 
+class PageModificarSalas(Frame):
+    def __init__(self, master):
+        self.controller = master.controller
+        self.selected_sala = None
+
+        #Añade los botones de las distintas opciones
+        Frame.__init__(self, master)
+        self.configure(bg="#1C1C1C")
+
+        self.boton_habilitar_sala = Button(self, 
+                                    text="Habilitar sala", 
+                                    font='Helvetica 10 bold', 
+                                    command=lambda:self.controller.habilitar_sala())
+        self.boton_habilitar_sala.configure(bg="#9FA0FF")
+        self.boton_habilitar_sala.grid(row=0, column=0, pady=40)
+
+        self.boton_deshabilitar_sala = Button(self, 
+                            text="Deshabilitar sala", 
+                            font='Helvetica 10 bold', 
+                            command=lambda:self.controller.deshabilitar_sala())
+        self.boton_deshabilitar_sala.configure(bg="#9FA0FF")
+        self.boton_deshabilitar_sala.grid(row=0, column=1, padx=50)
+
+        self.treeview = ttk.Treeview(self, columns=("id", "nombre", "sueldo"))
+        self.treeview.tag_bind(
+            "selected", "<<TreeviewSelect>>", self.item_selected)
+
+        self.treeview.heading("#0", text="NÚMERO")
+        self.treeview.heading("#1", text="CAPACIDAD")
+        self.treeview.heading("#2", text="ESTADO")
+
+        self.treeview.grid(row=2, column=0, rowspan=10, columnspan=10)
+
+
+        self.boton_retroceder = Button(self, text="Confirmar", font='Helvetica 10 bold', command=lambda:master.switch_frame(PageAdminLocal))
+        self.boton_retroceder.configure(bg="#9FA0FF")
+        self.boton_retroceder.grid(row=13, column=1, pady=40)
+
+    def item_selected(self, event):
+        curl_item = self.treeview.focus()
+
+        self.selected_sala = (curl_item, self.treeview.item(curl_item))
+
+    def set_salas(self, salas: list):
+        for sala in salas.values():
+            item = self.treeview.insert("", 
+                                        END, 
+                                        text=sala[0],
+                                        values=(sala[1], sala[2]),
+                               tags=("selected"))
+
+    def update_sala(self, sala, text, values):
+        if values[1] == 'Habilitada':
+            values[1] = 'Deshabilitada'
+        else:
+            values[1] = 'Habilitada'
+            
+        self.treeview.item(sala, text=text, values=values)
 
 class SubPageAdminLocal(Frame):
     def __init__(self, master):
@@ -192,15 +249,4 @@ class SubPageAdminLocal(Frame):
         boton4 = Button(self, text="Modificar precio funciones", font='Helvetica 10 bold', command=lambda:self.modificar_precios)
         boton4.configure(bg="#ECEBE4")
         boton4.pack( pady=10)   
-        
-    def anadir_pelicula(self):
-        pass
     
-    def anadir_funciones(self):
-        pass
-    
-    def cancelar_funciones(self):
-        pass
-    
-    def modificar_precios(self):
-        pass

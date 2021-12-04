@@ -108,4 +108,45 @@ class AdminLocalModel:
         empleado = self.cine.añadir_empleado(rut, contraseña, nombre_completo, sueldo)
         return empleado
 
+    def get_salas(self):
+        return self.cine.get_salas()
 
+    def habilitar_sala(self, id):
+        self.cine.habilitar_sala(id)
+        
+        path = os.getcwd()
+        abs_path_empleados = f"{path}\data\{self.empleado.cine}\\salas.csv"
+        tempfile = NamedTemporaryFile(mode='a', delete=False)
+        fields = ['id', 'capacidad', 'estado']
+
+        with open(abs_path_empleados, 'r+', newline='') as csvfile, tempfile:
+            reader = csv.DictReader(csvfile, fieldnames=fields)
+            writer = csv.DictWriter(tempfile, fieldnames=fields, lineterminator='\n')
+            for row in reader:
+                if row['id'] == str(id):  
+                    row['estado'] = '1'
+                writer.writerow(row)
+
+        shutil.move(tempfile.name, abs_path_empleados)
+
+        return self.get_salas()
+
+    def deshabilitar_sala(self, id):
+        self.cine.deshabilitar_sala(id)
+        
+        path = os.getcwd()
+        abs_path_empleados = f"{path}\data\{self.empleado.cine}\\salas.csv"
+        tempfile = NamedTemporaryFile(mode='a', delete=False)
+        fields = ['id', 'capacidad', 'estado']
+
+        with open(abs_path_empleados, 'r+', newline='') as csvfile, tempfile:
+            reader = csv.DictReader(csvfile, fieldnames=fields)
+            writer = csv.DictWriter(tempfile, fieldnames=fields, lineterminator='\n')
+            for row in reader:
+                if row['id'] == str(id):  
+                    row['estado'] = '0'
+                writer.writerow(row)
+
+        shutil.move(tempfile.name, abs_path_empleados)
+
+        return self.get_salas()

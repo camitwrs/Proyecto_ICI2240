@@ -1,7 +1,7 @@
 from src.modelos.login import LoginModel
 from src.vistas.application import Aplicacion
 from src.vistas.empleado import PageEmpleado, SubPageEmpleado, PageDescuento, PageVentaEntrada
-from src.vistas.admin_local import PageAdminLocal, PageModificarEmpleados
+from src.vistas.admin_local import PageAdminLocal, PageModificarEmpleados, PageModificarSalas
 from src.vistas.admin_global import PageAdminGlobal
 
 
@@ -144,3 +144,27 @@ class Controller:
             self.view._frame.añadir_empleado(empleado)
         else:
             self.view.throw_error("Error", "El empleado a agregar ya tiene una cuenta creada en el sistema.")
+
+    def boton_modificar_salas(self):
+        salas = self.model.get_salas()
+        
+        self.view.switch_frame(PageModificarSalas)
+        self.view._frame.set_salas(salas)
+
+    def habilitar_sala(self):
+        selected_sala = self.view._frame.selected_sala
+        if selected_sala is None:
+            self.view.throw_error("Error", "Por favor selecciona alguna de las salas antes de presionar el botón.")
+            return
+        
+        self.model.habilitar_sala(selected_sala[1]['text'])
+        self.view._frame.update_sala(selected_sala[0], selected_sala[1]['text'], selected_sala[1]['values'])
+
+    def deshabilitar_sala(self):
+        selected_sala = self.view._frame.selected_sala
+        if selected_sala is None:
+            self.view.throw_error("Error", "Por favor selecciona alguna de las salas antes de presionar el botón.")
+            return
+
+        self.model.deshabilitar_sala(selected_sala[1]['text'])
+        self.view._frame.update_sala(selected_sala[0], selected_sala[1]['text'], selected_sala[1]['values'])
