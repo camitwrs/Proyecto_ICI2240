@@ -168,3 +168,19 @@ class Controller:
 
         self.model.deshabilitar_sala(selected_sala[1]['text'])
         self.view._frame.update_sala(selected_sala[0], selected_sala[1]['text'], selected_sala[1]['values'])
+
+    """ FUNCIONES ADMINISTRADOR GLOBAL """
+    def generar_cupones(self, cantidad, porcentaje):
+        if len(cantidad) == 0 or len(porcentaje) == 0:
+            self.view.throw_error("Error", "Por favor especifica un valor para ambos campos.")
+        elif not cantidad.isdigit() or not porcentaje.isdigit():
+            self.view.throw_error("Error", "Por favor asegurate que los valores ingresados sean números enteros positivos.")
+        elif int(porcentaje) < 1 or int(porcentaje) > 100:
+            self.view.throw_error("Error", "Por favor asegurate que el porcentaje sea mayor o igual a 1 y menor o igual a 100.")
+
+        result = self.model.generar_cupones(int(cantidad), int(porcentaje))
+
+        if result:
+            self.view.throw_messagebox("Exito", "Los cupones han sido generados con éxito.")
+        else:
+            self.view.throw_error("Error", "Ha occurido un error al generar los cupones.")

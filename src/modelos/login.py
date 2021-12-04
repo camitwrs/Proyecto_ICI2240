@@ -271,15 +271,17 @@ class LoginModel:
             login_valido = usuario.verificar_contraseña(contraseña)
 
             if login_valido:
+                cupones = self._cargar_cupones()
+
                 if usuario.cargo == "administrador_global":
                     cines = self._cargar_cines()
                     modelo = usuario.crear_modelo(
                         usuario = usuario,
-                        cines = cines
+                        cines = cines,
+                        cupones = cupones
                     )
                 else:
                     cine = self._cargar_cine(usuario.cine)
-                    cupones = self._cargar_cupones()
                     modelo = usuario.crear_modelo(
                         usuario = usuario,
                         cine = cine,

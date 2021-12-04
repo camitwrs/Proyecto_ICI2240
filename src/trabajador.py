@@ -79,8 +79,9 @@ class AdminGlobal(Trabajador):
     def crear_modelo(self, **kwargs):
         usuario = kwargs.get("usuario")
         cines = kwargs.get("cines")
+        cupones = kwargs.get("cupones")
 
-        if usuario is None or cines is None:
+        if usuario is None or cines is None or cupones is None:
             return None
 
-        return AdminGlobalModel(usuario, cines)
+        return AdminGlobalModel(usuario, cines, cupones)

@@ -1,4 +1,4 @@
-from tkinter import Frame, Label, Button
+from tkinter import Frame, Label, Button, StringVar, Entry
 
 
 class PageAdminGlobal(Frame):
@@ -27,27 +27,13 @@ class PageAdminGlobal(Frame):
         boton4 = Button(self, text="Modificar precios películas", font='Helvetica 10 bold', command=lambda:self.modificar_precios_totales)
         boton4.configure(bg="#ECEBE4")
         boton4.pack(pady=10)
-        boton5 = Button(self, text="Generar cupones de descuento", font='Helvetica 10 bold', command=lambda:self.generar_cupones)
+        boton5 = Button(self, text="Generar cupones de descuento", font='Helvetica 10 bold', command=lambda:master.switch_frame(PageGenerarCupones))
         boton5.configure(bg="#ECEBE4")
         boton5.pack(pady=10)
         boton6 = Button(self, text="Realizar reporte", font='Helvetica 10 bold', command=lambda:self.realizar_reporte)
         boton6.configure(bg="#ECEBE4")
         boton6.pack(pady=10)
 
-    def modificar_cine(self):
-        pass
-    
-    def mostrar_info_cine(self):
-        pass
-    
-    def modificar_precios_totales(self):
-        pass
-    
-    def generar_cupones(self):
-        pass
-    
-    def realizar_reporte(self):
-        pass
     
 class SubPageAdminGlobal(Frame):
     def __init__(self, master):
@@ -69,8 +55,44 @@ class SubPageAdminGlobal(Frame):
         boton2.configure(bg="#ECEBE4")
         boton2.pack(pady=10)
 
-    def agregar_adminlocal(self):
-        pass
-    
-    def eliminar_adminlocal(self):
-        pass
+
+class PageGenerarCupones(Frame):        
+    def __init__(self, master):
+        self.controller = master.controller
+        Frame.__init__(self, master)
+        self.configure(bg="#1C1C1C")
+        
+        #Espacio en blanco, estética
+        title = Label(self)
+        title.configure(bg="#1C1C1C", fg="#ffffff")
+        title.pack(pady=50)
+        
+        label1 = Label(self, text="Ingrese la cantidad de cupones a generar", font='Helvetica 10 bold')
+        label1.configure(bg="#1C1C1C", fg="#ffffff")
+        label1.pack(pady=10) 
+         
+        cantidad = StringVar()
+        entry_cantidad = Entry(self, width=20, textvariable=cantidad)
+        entry_cantidad.configure(bg="#DADDD8")
+        entry_cantidad.pack(pady=10) 
+
+        label2 = Label(self, text="Ingrese el porcentaje de descuento", font='Helvetica 10 bold')
+        label2.configure(bg="#1C1C1C", fg="#ffffff")
+        label2.pack(pady=10) 
+         
+        descuento = StringVar()
+        entry_descuento = Entry(self, width=20, textvariable=descuento)
+        entry_descuento.configure(bg="#DADDD8")
+        entry_descuento.pack(pady=10) 
+        
+        boton_verificar = Button(self, text="Generar", 
+                                command=lambda:self.controller.generar_cupones(
+                                                            cantidad.get(),
+                                                            descuento.get()
+                                                            ), 
+                                font='Helvetica 10 bold')
+        boton_verificar.pack(pady=10)
+        
+        retroceder = Button(self, text="Confirmar", font='Helvetica 10 bold', command=lambda:master.switch_frame(PageAdminGlobal))
+        retroceder.configure(bg="#9FA0FF")
+        retroceder.pack(pady=10)
