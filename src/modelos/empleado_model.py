@@ -150,7 +150,25 @@ class EmpleadoModel:
             int(time.mktime(datetime.now().timetuple())), 
             int(boleta['precio'])
             ]
-
+        if self.venta.descuento != None:
+            print (self.venta.descuento.codigo)
+            self.venta.descuento.utilizado = True
+            path = os.getcwd()
+            abs_path_cupones = f"{path}\data\cupones.csv"
+            tempfile = NamedTemporaryFile(mode='a', delete=False)
+            fields = ['codigo', 'porcentaje', 'utilizado']
+            
+            with open(abs_path_cupones, 'r+', newline='') as csvfile, tempfile:
+                reader = csv.DictReader(csvfile, fieldnames=fields)
+                writer = csv.DictWriter(tempfile, fieldnames=fields, lineterminator='\n')
+                
+                for row in reader:
+                    if row['codigo'] == str(self.venta.descuento.codigo):
+                        row['utilizado'] = "1"
+                    writer.writerow(row)
+                    
+            shutil.move(tempfile.name, abs_path_cupones)
+            
         self._registrar_venta(datos_venta, boleta)
         self.empleado.ventas += 1
 
