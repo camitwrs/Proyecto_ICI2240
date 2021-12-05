@@ -25,9 +25,13 @@ class Cine:
         opciones_funciones = {}
         pelicula = self.peliculas[id_pelicula]
 
-        for funcion in pelicula.funciones:
-            inicio = funcion.get_horario_inicio()
+        pair_aux = pelicula.funciones.first()
+
+        while pair_aux:
+            inicio = pair_aux.value.get_horario_inicio()
             opciones_funciones[inicio.strftime("%d-%m %H:%M")] = (pelicula.id, inicio)
+
+            pair_aux = pelicula.funciones.next()
         
         return opciones_funciones
 
