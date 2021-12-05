@@ -11,7 +11,7 @@ class Aplicacion(Tk):
 
         self.title("C4U")
         self.geometry("960x540")
-        self.configure(bg="#1C1C1C")
+        self.configure(bg="#33353d")
         self.resizable(0,0)
         self._frame = None
         

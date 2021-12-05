@@ -8,31 +8,27 @@ class PageAdminLocal(Frame):
         
         #Crea el frame del mismo color de fondo
         Frame.__init__(self, master)
-        self.configure(bg="#1C1C1C")
+        self.configure(bg="#33353d")
+        
+        #Espacio en blanco, estética
+        title = Label(self)
+        title.configure(bg="#33353d")
+        title.pack(pady=30)
         
         #Añade el texto del menú
         label1 = Label(self, text="MENÚ ADMINISTRADOR LOCAL:", font='Helvetica 12 bold')
-        label1.configure(bg="#1C1C1C", fg="#ffffff")
-        label1.pack(pady=80)
+        label1.configure(bg="#33353d", fg="#cccccccff")
+        label1.pack(pady=50)
         
         #Añade los botones de las distintas opciones
-        boton1 = Button(self, text="Resumen general", font='Helvetica 10 bold', command=lambda:self.resumen_general)
-        boton1.configure(bg="#ECEBE4")
-        boton1.pack(pady=10)
         boton2 = Button(self, text="Modificar cartelera", font='Helvetica 10 bold', command=lambda:master.switch_frame(SubPageAdminLocal))
-        boton2.configure(bg="#ECEBE4")
+        boton2.configure(bg="#cccccccff", fg="#1c1c1c")
         boton2.pack(pady=10)
-        boton3 = Button(self, text="Informe de personal", font='Helvetica 10 bold', command=lambda:self.informe_ventas)
-        boton3.configure(bg="#ECEBE4")
-        boton3.pack(pady=10)
         boton4 = Button(self, text="Modificar empleados", font='Helvetica 10 bold', command=lambda:self.controller.boton_modificar_empleados())
-        boton4.configure(bg="#ECEBE4")
+        boton4.configure(bg="#cccccccff", fg="#1c1c1c")
         boton4.pack(pady=10)
-        boton5 = Button(self, text="Administar horario", font='Helvetica 10 bold', command=lambda:self.mostrar_horario)
-        boton5.configure(bg="#ECEBE4")
-        boton5.pack(pady=10)
         boton6 = Button(self, text="Modificar salas", font='Helvetica 10 bold', command=lambda:self.controller.boton_modificar_salas())
-        boton6.configure(bg="#ECEBE4")
+        boton6.configure(bg="#cccccccff", fg="#1c1c1c")
         boton6.pack(pady=10)
         
 
@@ -45,57 +41,57 @@ class PageModificarEmpleados(ttk.Frame):
         self.selected_empleado = None
 
         Frame.__init__(self, master)
-        self.configure(bg="#1C1C1C")
-
+        self.configure(bg="#33353d")
+        
         #Añade el texto para ingresar rut en el frame
         self.texto_rut = Label(self, text="RUT:", font='Helvetica 12 bold')
-        self.texto_rut.configure(bg="#1C1C1C", fg="#ffffff")
-        self.texto_rut.grid(row=0, column=0)
+        self.texto_rut.configure(bg="#33353d", fg="#cccccccff")
+        self.texto_rut.grid(row=0, column=0, pady=(50, 0))
         #texto_rut.pack()
         
         # #Añade la entrada para el rut del usuario
         self.rut = StringVar()
         self.entry_rut = Entry(self, width=20, textvariable=self.rut)
-        self.entry_rut.configure(bg="#DADDD8")
-        self.entry_rut.grid(row=0, column=1)
+        self.entry_rut.configure(bg="#e6e1da")
+        self.entry_rut.grid(row=0, column=1, pady=(50, 0))
         #entry_rut.pack(pady=10) 
 
         # #Añade el texto para ingresar rut en el frame
         self.texto_nombre = Label(self, text="Nombre completo:", font='Helvetica 12 bold')
-        self.texto_nombre.configure(bg="#1C1C1C", fg="#ffffff")
+        self.texto_nombre.configure(bg="#33353d", fg="#cccccccff")
         self.texto_nombre.grid(row=1, column=0)
         # texto_nombre.pack()
         
         # #Añade la entrada para el rut del usuario
         self.nombre = StringVar()
         self.entry_usuario = Entry(self, width=20, textvariable=self.nombre)
-        self.entry_usuario.configure(bg="#DADDD8")
+        self.entry_usuario.configure(bg="#e6e1da")
         self.entry_usuario.grid(row=1, column=1)
         #entry_usuario.pack(pady=10) 
 
         # #Añade el texto para ingresar rut en el frame
         self.texto_contraseña = Label(self, text="Contraseña:", font='Helvetica 12 bold')
-        self.texto_contraseña.configure(bg="#1C1C1C", fg="#ffffff")
+        self.texto_contraseña.configure(bg="#33353d", fg="#cccccccff")
         self.texto_contraseña.grid(row=2, column=0)
         # texto_contraseña.pack()
         
         # #Añade la entrada para el rut del usuario
         self.contraseña = StringVar()
         self.entry_contraseña = Entry(self, width=20, textvariable=self.contraseña)
-        self.entry_contraseña.configure(bg="#DADDD8")
+        self.entry_contraseña.configure(bg="#e6e1da")
         self.entry_contraseña.grid(row=2, column=1)
         #entry_contraseña.pack(pady=10) 
 
         # #Añade el texto para ingresar rut en el frame
         self.texto_sueldo = Label(self, text="Sueldo:", font='Helvetica 12 bold')
-        self.texto_sueldo.configure(bg="#1C1C1C", fg="#ffffff")
+        self.texto_sueldo.configure(bg="#33353d", fg="#cccccccff")
         self.texto_sueldo.grid(row=3, column=0)
         # texto_sueldo.pack()
         
         # #Añade la entrada para el rut del usuario
         self.sueldo = StringVar()
         self.entry_sueldo = Entry(self, width=20, textvariable=self.sueldo)
-        self.entry_sueldo.configure(bg="#DADDD8")
+        self.entry_sueldo.configure(bg="#e6e1da")
         self.entry_sueldo.grid(row=3, column=1)
         # entry_sueldo.pack(pady=10) 
 
@@ -108,14 +104,19 @@ class PageModificarEmpleados(ttk.Frame):
                                                 self.nombre.get(),
                                                 self.sueldo.get()
                                             ))
-        self.boton_añadir_empleado.configure(bg="#9FA0FF")
+        self.boton_añadir_empleado.configure(bg="#cccccccff", fg="#1c1c1c")
         self.boton_añadir_empleado.grid(row=2, column=2, padx=20)
 
         self.boton_eliminar_empleado = Button(self, text="Eliminar empleado", font='Helvetica 10 bold', command=lambda:self.controller.eliminar_empleado())
-        self.boton_eliminar_empleado.configure(bg="#9FA0FF")
+        self.boton_eliminar_empleado.configure(bg="#cccccccff", fg="#1c1c1c")
         self.boton_eliminar_empleado.grid(row=3, column=2, padx=20)
         #self.boton_eliminar_empleado.pack(pady=10)
 
+        self.style = ttk.Style(self)
+        self.style.theme_use("clam")
+        self.style.configure("Treeview", background="#33353d",
+                fieldbackground="#33353d", foreground="#cccccccff")
+        
         self.treeview = ttk.Treeview(self, columns=("id", "nombre", "sueldo"))
         self.treeview.tag_bind(
             "selected", "<<TreeviewSelect>>", self.item_selected)
@@ -128,7 +129,7 @@ class PageModificarEmpleados(ttk.Frame):
         #self.treeview.pack()
 
         self.boton_retroceder = Button(self, text="Confirmar", font='Helvetica 10 bold', command=lambda:master.switch_frame(PageAdminLocal))
-        self.boton_retroceder.configure(bg="#9FA0FF")
+        self.boton_retroceder.configure(bg="#ec646c", fg="#1c1c1c")
         self.boton_retroceder.grid(row=15, column=1, pady=40)
         #self.boton_retroceder.pack(pady=10)
 
@@ -171,21 +172,30 @@ class PageModificarSalas(Frame):
 
         #Añade los botones de las distintas opciones
         Frame.__init__(self, master)
-        self.configure(bg="#1C1C1C")
+        self.configure(bg="#33353d")
 
         self.boton_habilitar_sala = Button(self, 
                                     text="Habilitar sala", 
                                     font='Helvetica 10 bold', 
                                     command=lambda:self.controller.habilitar_sala())
-        self.boton_habilitar_sala.configure(bg="#9FA0FF")
-        self.boton_habilitar_sala.grid(row=0, column=0, pady=40)
+        self.boton_habilitar_sala.configure(bg="#cccccccff", fg="#1c1c1c")
+        self.boton_habilitar_sala.grid(row=0, column=0, pady=(80, 0))
 
         self.boton_deshabilitar_sala = Button(self, 
                             text="Deshabilitar sala", 
                             font='Helvetica 10 bold', 
                             command=lambda:self.controller.deshabilitar_sala())
-        self.boton_deshabilitar_sala.configure(bg="#9FA0FF")
-        self.boton_deshabilitar_sala.grid(row=0, column=1, padx=50)
+        self.boton_deshabilitar_sala.configure(bg="#cccccccff", fg="#1c1c1c")
+        self.boton_deshabilitar_sala.grid(row=0, column=1, padx=50, pady=(80, 0))
+
+        self.espacio = Label(self)
+        self.espacio.configure(bg="#33353d")
+        self.espacio.grid(pady=10)
+        
+        self.style = ttk.Style(self)
+        self.style.theme_use("clam")
+        self.style.configure("Treeview", background="#33353d",
+                fieldbackground="#33353d", foreground="#cccccccff")
 
         self.treeview = ttk.Treeview(self, columns=("id", "nombre", "sueldo"))
         self.treeview.tag_bind(
@@ -199,7 +209,7 @@ class PageModificarSalas(Frame):
 
 
         self.boton_retroceder = Button(self, text="Confirmar", font='Helvetica 10 bold', command=lambda:master.switch_frame(PageAdminLocal))
-        self.boton_retroceder.configure(bg="#9FA0FF")
+        self.boton_retroceder.configure(bg="#ec646c", fg="#1c1c1c")
         self.boton_retroceder.grid(row=13, column=1, pady=40)
 
     def item_selected(self, event):
@@ -229,24 +239,28 @@ class SubPageAdminLocal(Frame):
         
         #Añade los botones de las distintas opciones
         Frame.__init__(self, master)
-        self.configure(bg="#1C1C1C")
+        self.configure(bg="#33353d")
+        
+        title = Label(self)
+        title.configure(bg="#33353d")
+        title.pack(pady=30)
         
         #Añade el texto del menú
         label1 = Label(self, text="SUBMENÚ MODIFICAR CARTELERA:", font='Helvetica 12 bold')
-        label1.configure(bg="#1C1C1C", fg="#ffffff")
-        label1.pack(pady=80)
+        label1.configure(bg="#33353d", fg="#cccccccff")
+        label1.pack(pady=50)
         
         #Añade los botones de las distintas opciones
         boton1 = Button(self, text="Añadir película", font='Helvetica 10 bold', command=lambda:self.anadir_pelicula)
-        boton1.configure(bg="#ECEBE4")
+        boton1.configure(bg="#cccccccff", fg="#1c1c1c")
         boton1.pack( pady=10)
         boton2 = Button(self, text="Añadir funciones", font='Helvetica 10 bold', command=lambda:self.anadir_funciones)
-        boton2.configure(bg="#ECEBE4")
+        boton2.configure(bg="#cccccccff", fg="#1c1c1c")
         boton2.pack(pady=10)
         boton3 = Button(self, text="Cancelar funciones", font='Helvetica 10 bold', command=lambda:self.cancelar_funciones)
-        boton3.configure(bg="#ECEBE4")
+        boton3.configure(bg="#cccccccff", fg="#1c1c1c")
         boton3.pack(pady=10)
         boton4 = Button(self, text="Modificar precio funciones", font='Helvetica 10 bold', command=lambda:self.modificar_precios)
-        boton4.configure(bg="#ECEBE4")
+        boton4.configure(bg="#cccccccff", fg="#1c1c1c")
         boton4.pack( pady=10)   
     

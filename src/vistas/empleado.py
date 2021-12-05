@@ -8,28 +8,28 @@ class PageEmpleado(Frame):
         
         #Crea el frame del mismo color de fondo
         Frame.__init__(self, master)
-        self.configure(bg="#1C1C1C")
+        self.configure(bg="#33353d")
         
         #Añade el texto del menú
         label1 = Label(self, text="MENÚ EMPLEADO:", font='Helvetica 12 bold')
-        label1.configure(bg="#1C1C1C", fg="#ffffff")
+        label1.configure(bg="#33353d", fg="#cccccccff")
         label1.pack(pady=80)
         
         #Añade los botones de las distintas opciones
         boton1 = Button(self, text="Realizar venta", font='Helvetica 10 bold', command=lambda:master.switch_frame(SubPageEmpleado))
-        boton1.configure(bg="#ECEBE4")
+        boton1.configure(bg="#cccccccff", fg="#1c1c1c")
         boton1.pack(pady=10) 
         
         boton2 = Button(self, text="Marcar asistencia", font='Helvetica 10 bold', command=lambda:self.controller.marcar_asistencia())
-        boton2.configure(bg="#ECEBE4")
+        boton2.configure(bg="#cccccccff", fg="#1c1c1c")
         boton2.pack(pady=10)
         
         boton3 = Button(self, text="Informe de ventas", font='Helvetica 10 bold', command=lambda:self.controller.informe_ventas())
-        boton3.configure(bg="#ECEBE4")
+        boton3.configure(bg="#cccccccff", fg="#1c1c1c")
         boton3.pack(pady=10)
         
         boton4 = Button(self, text="Ver horario", font='Helvetica 10 bold', command=lambda:self.controller.mostrar_horario())
-        boton4.configure(bg="#ECEBE4")
+        boton4.configure(bg="#cccccccff", fg="#1c1c1c")
         boton4.pack(pady=10)
         
 
@@ -39,39 +39,39 @@ class SubPageEmpleado(Frame):
         
         #Crea el frame del mismo color de fondo
         Frame.__init__(self, master)
-        self.configure(bg="#1C1C1C")
+        self.configure(bg="#33353d")
         
         #Espacio en blanco, estética
         title = Label(self)
-        title.configure(bg="#1C1C1C", fg="#ffffff")
+        title.configure(bg="#33353d")
         title.pack(pady=30)
         
         label1 = Label(self, text="SUBMENÚ REALIZAR VENTA:", font='Helvetica 12 bold')
-        label1.configure(bg="#1C1C1C", fg="#ffffff")
+        label1.configure(bg="#33353d", fg="#cccccccff")
         label1.pack(pady=10)
         
         text1 = Label(self, text="Para vender la entrada, debe empezar desde la\n opción 1 hasta la opción 3.", font='Helvetica 9')
-        text1.configure(bg="#1C1C1C", fg="#ffffff")
+        text1.configure(bg="#33353d", fg="#cccccccff")
         text1.pack()
         text2 = Label(self, text="Usar la última opción SOLO si lo necesita.", font='Helvetica 9 bold')
-        text2.configure(bg="#1C1C1C", fg="#ffffff")
+        text2.configure(bg="#33353d", fg="#cccccccff")
         text2.pack(pady=10)
         
         #Añade los botones de las distintas opciones
         boton1 = Button(self, text="1. Vender entrada", font='Helvetica 10 bold', command=lambda:self.controller.boton_vender_entrada())
-        boton1.configure(bg="#ECEBE4")
+        boton1.configure(bg="#cccccccff", fg="#1c1c1c")
         boton1.pack(pady=10)
         
         boton2 = Button(self, text="2. Aplicar descuento", font='Helvetica 10 bold', command=lambda:self.controller.boton_aplicar_descuento())
-        boton2.configure(bg="#ECEBE4")
+        boton2.configure(bg="#cccccccff", fg="#1c1c1c")
         boton2.pack(pady=10)
 
         boton3 = Button(self, text="3. Concretar venta", font='Helvetica 10 bold', command=lambda:self.controller.boton_concretar_venta())
-        boton3.configure(bg="#ECEBE4")
+        boton3.configure(bg="#cccccccff", fg="#1c1c1c")
         boton3.pack(pady=10)
 
         boton4 = Button(self, text="Cancelar venta", font='Helvetica 10 bold', command=lambda:self.controller.boton_cancelar_venta())
-        boton4.configure(bg="#ECEBE4")
+        boton4.configure(bg="#cccccccff", fg="#1c1c1c")
         boton4.pack(pady=10) 
 
     
@@ -79,7 +79,7 @@ class PageVentaEntrada(Frame):
     def __init__(self, master):
         self.controller = master.controller
         Frame.__init__(self, master)
-        self.configure(bg="#1C1C1C")
+        self.configure(bg="#33353d")
 
         self.texto = StringVar()
         
@@ -88,25 +88,25 @@ class PageVentaEntrada(Frame):
         
         #Espacio en blanco, estética
         title = Label(self)
-        title.configure(bg="#1C1C1C", fg="#ffffff")
+        title.configure(bg="#33353d")
         title.pack(pady=50)
         
         label1 = Label(self, text="Seleccione película", font='Helvetica 10 bold')
-        label1.configure(bg="#1C1C1C", fg="#ffffff")
+        label1.configure(bg="#33353d", fg="#cccccccff")
         label1.pack(pady=10)  
         self.combo1 = Combobox(self, state="readonly", width=50, values=self.lista_pelis)  
         self.combo1.bind("<<ComboboxSelected>>", self._callback_peliculas)                           
         self.combo1.pack()
     
         label3 = Label(self, text="Seleccione horario", font='Helvetica 10 bold')
-        label3.configure(bg="#1C1C1C", fg="#ffffff")
+        label3.configure(bg="#33353d", fg="#cccccccff")
         label3.pack(pady=10)  
         self.combo2 = Combobox(self, state="readonly", width=50, values=self.lista_funciones)  
         self.combo2.bind("<<ComboboxSelected>>", self._callback_funciones)                             
         self.combo2.pack()
         
         retroceder = Button(self, text="Confirmar", font='Helvetica 10 bold', command=lambda:master.switch_frame(SubPageEmpleado))
-        retroceder.configure(bg="#9FA0FF")
+        retroceder.configure(bg="#ec646c", fg="#1c1c1c")
         retroceder.pack(pady=30)
         
     def set_peliculas(self, peliculas: dict):
@@ -134,27 +134,28 @@ class PageDescuento(Frame):
     def __init__(self, master):
         self.controller = master.controller
         Frame.__init__(self, master)
-        self.configure(bg="#1C1C1C")
+        self.configure(bg="#33353d")
         
         #Espacio en blanco, estética
         title = Label(self)
-        title.configure(bg="#1C1C1C", fg="#ffffff")
+        title.configure(bg="#33353d")
         title.pack(pady=50)
         
         label1 = Label(self, text="Ingrese el código de descuento", font='Helvetica 10 bold')
-        label1.configure(bg="#1C1C1C", fg="#ffffff")
+        label1.configure(bg="#33353d", fg="#cccccccff")
         label1.pack(pady=10) 
          
         cupon = StringVar()
         entry_cup = Entry(self, width=20, textvariable=cupon)
-        entry_cup.configure(bg="#DADDD8")
+        entry_cup.configure(bg="#e6e1da")
         entry_cup.pack(pady=10) 
         
         boton_verificar = Button(self, text="Verificar código", 
                                 command=lambda:self.controller.verificar_cupon(cupon.get()), 
                                 font='Helvetica 10 bold')
+        boton_verificar.configure(bg="#cccccccff", fg="#1c1c1c")
         boton_verificar.pack(pady=10)
         
         retroceder = Button(self, text="Confirmar", font='Helvetica 10 bold', command=lambda:master.switch_frame(SubPageEmpleado))
-        retroceder.configure(bg="#9FA0FF")
+        retroceder.configure(bg="#ec646c", fg="#1c1c1c")
         retroceder.pack(pady=10)
