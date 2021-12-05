@@ -126,7 +126,7 @@ class LoginModel:
                 empleado = self.usuarios[rut]
                 empleado.nombre = nombre
                 empleado.sueldo = sueldo
-                empleado.ventas = ventas
+                empleado.ventas = int(ventas)
 
                 if empleado.cargo != "administrador_local":
                     empleado.horarios = self._cargar_horarios(cine_folder, rut)

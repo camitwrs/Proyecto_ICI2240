@@ -26,6 +26,7 @@ class EmpleadoModel:
         path = os.getcwd()
         absolute_path_ventas = f"{path}\data\{self.empleado.cine}\\ventas.csv"
         absolute_path_funciones = f"{path}\data\{self.empleado.cine}\\funciones.csv"
+        absolute_path_empleados = f"{path}\data\{self.empleado.cine}\\empleados.csv"
 
         with open(absolute_path_ventas, 'a', newline='') as csv_file:
             writer = csv.writer(csv_file, lineterminator='\n')
@@ -44,16 +45,25 @@ class EmpleadoModel:
                     if row['sala'] == str(boleta['sala']):
                         if row['nombre'] == boleta['nombre_pelicula']:
                             row['entradas_vendidas'] = int(row['entradas_vendidas']) + 1
-                row = {
-                    'inicio': row['inicio'], 
-                    'sala': row['sala'], 
-                    'nombre': row['nombre'], 
-                    'id': row['id'], 
-                    'entradas_vendidas': row['entradas_vendidas']
-                }
+
                 writer.writerow(row)
 
         shutil.move(tempfile.name, absolute_path_funciones)
+
+        tempfile = NamedTemporaryFile(mode='a', delete=False)
+        fields = ['nombre', 'rut', 'sueldo', 'ventas']
+
+        with open(absolute_path_empleados, 'r+', newline='') as csvfile, tempfile:
+            reader = csv.DictReader(csvfile, fieldnames=fields)
+            writer = csv.DictWriter(tempfile, fieldnames=fields, lineterminator='\n')
+            for row in reader:
+                if row['rut'] == self.empleado.rut:
+                    row['ventas'] = int(row['ventas']) + 1
+
+                writer.writerow(row)
+
+        shutil.move(tempfile.name, absolute_path_empleados)
+
 
     def get_peliculas(self):
         return self.cine.get_opciones_peliculas()
@@ -142,6 +152,7 @@ class EmpleadoModel:
             ]
 
         self._registrar_venta(datos_venta, boleta)
+        self.empleado.ventas += 1
 
         self.venta.funcion = None
         self.venta.descuento = None
