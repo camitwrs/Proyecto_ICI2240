@@ -31,6 +31,80 @@ class PageAdminLocal(Frame):
         boton6.configure(bg="#cccccccff", fg="#1c1c1c")
         boton6.pack(pady=10)
         
+class PageAñadirPelicula(Frame):
+     def __init__(self, master):
+        self.controller = master.controller
+
+        Frame.__init__(self, master)
+        self.configure(bg="#33353d")
+
+        formato_opciones = ['Doblada', 'Subtitulada']
+        
+        self.label_nombre = Label(self, text="Nombre", font='Helvetica 12 bold')
+        self.label_nombre.configure(bg="#33353d", fg="#cccccccff")
+        self.label_nombre.grid(row=0, column=0, pady=5)
+
+        self.nombre = StringVar()
+        self.entry_nombre = Entry(self, width=20, textvariable=self.nombre)
+        self.entry_nombre.configure(bg="#e6e1da")
+        self.entry_nombre.grid(row=0, column=1, pady=5)
+
+        self.label_año = Label(self, text="Año", font='Helvetica 12 bold')
+        self.label_año.configure(bg="#33353d", fg="#cccccccff")
+        self.label_año.grid(row=1, column=0, pady=5)
+        
+        self.año = StringVar()
+        self.entry_año = Entry(self, width=20, textvariable=self.año)
+        self.entry_año.configure(bg="#e6e1da")
+        self.entry_año.grid(row=1, column=1, pady=5)
+
+        self.label_duracion = Label(self, text="Duracion (minutos)", font='Helvetica 12 bold')
+        self.label_duracion.configure(bg="#33353d", fg="#cccccccff")
+        self.label_duracion.grid(row=2, column=0, pady=5)
+        
+        self.duracion = StringVar()
+        self.entry_duracion = Entry(self, width=20, textvariable=self.duracion)
+        self.entry_duracion.configure(bg="#e6e1da")
+        self.entry_duracion.grid(row=2, column=1, pady=5)
+
+        self.label_precio = Label(self, text="Precio", font='Helvetica 12 bold')
+        self.label_precio.configure(bg="#33353d", fg="#cccccccff")
+        self.label_precio.grid(row=3, column=0, pady=5)
+        
+        self.precio = StringVar()
+        self.entry_precio = Entry(self, width=20, textvariable=self.precio)
+        self.entry_precio.configure(bg="#e6e1da")
+        self.entry_precio.grid(row=3, column=1, pady=5)
+
+        self.label_generos = Label(self, text="Géneros (separados por coma)", font='Helvetica 12 bold')
+        self.label_generos.configure(bg="#33353d", fg="#cccccccff")
+        self.label_generos.grid(row=4, column=0, pady=5)
+        
+        self.generos = StringVar()
+        self.entry_generos = Entry(self, width=20, textvariable=self.generos)
+        self.entry_generos.configure(bg="#e6e1da")
+        self.entry_generos.grid(row=4, column=1, pady=5)
+
+        self.combo1 = ttk.Combobox(self, state="readonly", width=50, values=formato_opciones)                        
+        self.combo1.grid(row=5, column=0, columnspan=6)
+
+        self.boton_retroceder = Button(self, 
+                                       text="Guardar", 
+                                       font='Helvetica 10 bold', 
+                                       command=lambda:self.controller.añadir_pelicula(
+                                           self.nombre.get(),
+                                           self.año.get(),
+                                           self.duracion.get(),
+                                           self.precio.get(),
+                                           self.generos.get(),
+                                           self.combo1.get()
+                                       ))
+        self.boton_retroceder.configure(bg="#ec646c", fg="#1c1c1c")
+        self.boton_retroceder.grid(row=6, column=0, pady=10, columnspan=6)
+
+        self.boton_retroceder = Button(self, text="Confirmar", font='Helvetica 10 bold', command=lambda:master.switch_frame(PageAdminLocal))
+        self.boton_retroceder.configure(bg="#ec646c", fg="#1c1c1c")
+        self.boton_retroceder.grid(row=7, column=0, pady=10, columnspan=6)
 
 class PageModificarEmpleados(ttk.Frame): 
     """
@@ -47,20 +121,17 @@ class PageModificarEmpleados(ttk.Frame):
         self.texto_rut = Label(self, text="RUT:", font='Helvetica 12 bold')
         self.texto_rut.configure(bg="#33353d", fg="#cccccccff")
         self.texto_rut.grid(row=0, column=0, pady=(50, 0))
-        #texto_rut.pack()
         
         # #Añade la entrada para el rut del usuario
         self.rut = StringVar()
         self.entry_rut = Entry(self, width=20, textvariable=self.rut)
         self.entry_rut.configure(bg="#e6e1da")
         self.entry_rut.grid(row=0, column=1, pady=(50, 0))
-        #entry_rut.pack(pady=10) 
 
         # #Añade el texto para ingresar rut en el frame
         self.texto_nombre = Label(self, text="Nombre completo:", font='Helvetica 12 bold')
         self.texto_nombre.configure(bg="#33353d", fg="#cccccccff")
         self.texto_nombre.grid(row=1, column=0)
-        # texto_nombre.pack()
         
         # #Añade la entrada para el rut del usuario
         self.nombre = StringVar()
@@ -251,16 +322,6 @@ class SubPageAdminLocal(Frame):
         label1.pack(pady=50)
         
         #Añade los botones de las distintas opciones
-        boton1 = Button(self, text="Añadir película", font='Helvetica 10 bold', command=lambda:self.anadir_pelicula)
+        boton1 = Button(self, text="Añadir película", font='Helvetica 10 bold', command=lambda:master.switch_frame(PageAñadirPelicula))
         boton1.configure(bg="#cccccccff", fg="#1c1c1c")
         boton1.pack( pady=10)
-        boton2 = Button(self, text="Añadir funciones", font='Helvetica 10 bold', command=lambda:self.anadir_funciones)
-        boton2.configure(bg="#cccccccff", fg="#1c1c1c")
-        boton2.pack(pady=10)
-        boton3 = Button(self, text="Cancelar funciones", font='Helvetica 10 bold', command=lambda:self.cancelar_funciones)
-        boton3.configure(bg="#cccccccff", fg="#1c1c1c")
-        boton3.pack(pady=10)
-        boton4 = Button(self, text="Modificar precio funciones", font='Helvetica 10 bold', command=lambda:self.modificar_precios)
-        boton4.configure(bg="#cccccccff", fg="#1c1c1c")
-        boton4.pack( pady=10)   
-    

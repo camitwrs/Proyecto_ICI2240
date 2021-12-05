@@ -1,4 +1,5 @@
 from src.trabajador import Empleado, AdminLocal
+from src.pelicula import Pelicula
 
 
 class Cine:
@@ -112,3 +113,15 @@ class Cine:
                 local_admins.append( (empleado.rut, empleado.nombre, empleado.cine) )
 
         return local_admins
+
+    def buscar_pelicula(self, nombre, año, duracion, dob_sub):
+        for pelicula in self.peliculas.values():
+            if pelicula.nombre == nombre and pelicula.año == año and pelicula.duracion == duracion and pelicula.dob_sub == dob_sub:
+                return pelicula
+        
+        return None
+
+    def añadir_pelicula(self, nombre, id_, año, duracion, precio, generos, dob_sub):
+        pelicula = Pelicula(nombre, id_, duracion, año, dob_sub, precio, generos)
+
+        self.peliculas[id_] = pelicula

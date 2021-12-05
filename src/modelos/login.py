@@ -7,8 +7,8 @@ from src.modelos import *
 from src.cupon import Cupon
 
 DOB_SUB = {
-    0: "Subtitulada",
-    1: "Doblada"
+    0: "Doblada",
+    1: "Subtitulada"
 }
 
 class LoginModel:

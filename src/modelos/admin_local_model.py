@@ -15,6 +15,33 @@ class AdminLocalModel:
         self.empleado = empleado
         self.cine = cine
 
+    def añadir_pelicula(self, nombre, año, duracion, precio, generos, dob_sub):
+        pelicula = self.cine.buscar_pelicula(nombre, int(año), int(duracion), dob_sub)
+
+        if pelicula:
+            return False
+
+        path = os.getcwd()
+        absolute_path_peliculas = f"{path}\data\{self.empleado.cine}\\peliculas.csv"
+
+        with open(absolute_path_peliculas, 'r+', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            id_ = len(list(reader))
+
+        if dob_sub == "Doblada":
+            dob_sub = 0
+        else:
+            dob_sub = 1
+            
+        with open(absolute_path_peliculas, 'a', newline='') as csv_file:
+            writer = csv.writer(csv_file, lineterminator='\n')
+            writer.writerow( (nombre, id_ + 1, duracion, año, generos, precio, dob_sub) )
+
+            csv_file.close()
+
+        generos = generos.split(",")
+        self.cine.añadir_pelicula(nombre, id_, int(año), int(duracion), int(precio), generos, dob_sub)
+
     def get_empleados(self):
         empleados_list = []
         empleados = self.cine.get_empleados()
