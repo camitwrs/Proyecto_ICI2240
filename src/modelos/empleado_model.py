@@ -138,7 +138,7 @@ class EmpleadoModel:
         datos_venta = [
             self.empleado.rut, 
             int(time.mktime(datetime.now().timetuple())), 
-            boleta['precio']
+            int(boleta['precio'])
             ]
 
         self._registrar_venta(datos_venta, boleta)
@@ -152,6 +152,17 @@ class EmpleadoModel:
         """
         self.venta.funcion = None
         self.venta.descuento = None
+
+    def informe_ventas(self):
+        palabras = self.empleado.nombre.split("_")
+        palabras_mayus = []
+
+        for word in palabras:
+            palabras_mayus.append(word.title())
+            
+        nombre = ' '.join(palabras_mayus)
+
+        return nombre, self.empleado.rut, self.empleado.ventas
 
 
 class Venta:

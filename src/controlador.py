@@ -86,6 +86,11 @@ class Controller:
     def guardar_venta(self, id_pelicula, inicio):
         self.model.guardar_venta(id_pelicula, inicio)
 
+    def informe_ventas(self):
+        nombre, rut, ventas = self.model.informe_ventas()
+
+        self.view.throw_messagebox("Ventas", f"{nombre} - {rut}\n\nHas realizado un total de {ventas}.")
+
     def mostrar_horario(self):
         horarios_concatenados = self.model.mostrar_horario_mod()
 

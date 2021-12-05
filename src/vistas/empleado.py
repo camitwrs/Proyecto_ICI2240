@@ -24,7 +24,7 @@ class PageEmpleado(Frame):
         boton2.configure(bg="#ECEBE4")
         boton2.pack(pady=10)
         
-        boton3 = Button(self, text="Informe de ventas", font='Helvetica 10 bold', command=lambda:self.informe_ventas)
+        boton3 = Button(self, text="Informe de ventas", font='Helvetica 10 bold', command=lambda:self.controller.informe_ventas())
         boton3.configure(bg="#ECEBE4")
         boton3.pack(pady=10)
         
