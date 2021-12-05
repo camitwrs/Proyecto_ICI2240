@@ -76,6 +76,10 @@ class PageEliminarAdmin(Frame):
 
         self.treeview.grid(row=2, column=0, rowspan=10, columnspan=10)
 
+        boton_retroceder = Button(self, text="Retroceder",
+                                 command=lambda:master.switch_frame(PageAdminGlobal))
+        boton_retroceder.grid(row=13, column=0, columnspan=4, pady=20)
+
     def set_admins(self, admins: list):
         for admin in admins:
             item = self.treeview.insert("", 
@@ -158,9 +162,9 @@ class PageAgregarAdmin(Frame):
                                 font='Helvetica 10 bold')
         boton_verificar.grid(row=5, column=0, columnspan=4, pady=20)
 
-        boton_confirmar = Button(self, text="Confirmar",
-                                 command=lambda:master.switch_page(PageAdminGlobal))
-        boton_confirmar.grid(row=6, column=0, columnspan=4, pady=20)
+        boton_retroceder = Button(self, text="Retroceder",
+                                 command=lambda:master.switch_frame(PageAdminGlobal))
+        boton_retroceder.grid(row=6, column=0, columnspan=4, pady=20)
         
 
 class PageGenerarCupones(Frame):        
