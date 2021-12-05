@@ -127,18 +127,21 @@ class LoginModel:
                 empleado.nombre = nombre
                 empleado.sueldo = sueldo
                 empleado.ventas = ventas
-                empleado.horarios = self._cargar_horarios(cine_folder, rut)
-                empleado.asistencia = self._cargar_asistencia(cine_folder, rut)
+
+                if empleado.cargo != "administrador_local":
+                    empleado.horarios = self._cargar_horarios(cine_folder, rut)
+                    empleado.asistencia = self._cargar_asistencia(cine_folder, rut)
+
+                    for horario in empleado.horarios:
+                        print(horario.inicio, horario.final)
+
+                    for asistencia in empleado.asistencia:
+                        print(asistencia.inicio, asistencia.asistencia)
 
                 trabajadores_cine[empleado.rut] = empleado
 
                 print(empleado.nombre, empleado.sueldo, empleado.ventas)
 
-                for horario in empleado.horarios:
-                    print(horario.inicio, horario.final)
-
-                for asistencia in empleado.asistencia:
-                    print(asistencia.inicio, asistencia.asistencia)
 
         return trabajadores_cine
 

@@ -80,16 +80,72 @@ class AdminGlobalModel:
                 writer.writerow(row)
 
         shutil.move(tempfile.name, abs_path_peliculas)
-        
-    def agregar_admin_local (self): #deberia recibir (self, nombre_cine)
-        rut = "12245184"
-        contraseña = "qps2021"
-        nombre_cine = "vina_del_mar"
-        path = os.getcwd()
-        abs_path_credenciales = f"{path}\data\\credenciales.csv"
-        
-        with open(abs_path_credenciales, 'a', newline='') as csv_file:
-            writer = csv.writer(csv_file, lineterminator='\n')
-            writer.writerow((rut, contraseña, "administrador_local", self.cine.nombre))
 
-            csv_file.close()
+    def get_local_admins(self):
+        local_admins = []
+
+        for cine in self.cines.values():
+            local_admins += cine.get_local_admins()
+
+        return local_admins
+
+    def eliminar_admin(self, rut: str, nombre_cine: str):
+        cine = self.cines.get(nombre_cine)
+        result = cine.eliminar_empleado(rut)
+
+        if result:
+            path = os.getcwd()
+
+            abs_path_credenciales = f"{path}\data\credenciales.csv"
+            tempfile = NamedTemporaryFile(mode='a', delete=False)
+            fields = ['rut', 'contraseña', 'cargo', 'cine']
+
+            with open(abs_path_credenciales, 'r+', newline='') as csvfile, tempfile:
+                reader = csv.DictReader(csvfile, fieldnames=fields)
+                writer = csv.DictWriter(tempfile, fieldnames=fields, lineterminator='\n')
+                for row in reader:
+                    if row['rut'] == rut:  
+                        continue
+                    writer.writerow(row)
+
+            shutil.move(tempfile.name, abs_path_credenciales)
+
+            abs_path_empleados = f"{path}\data\{nombre_cine}\\empleados.csv"
+            tempfile = NamedTemporaryFile(mode='a', delete=False)
+            fields = ['nombre', 'rut', 'sueldo', 'ventas']
+
+            with open(abs_path_empleados, 'r+', newline='') as csvfile, tempfile:
+                reader = csv.DictReader(csvfile, fieldnames=fields)
+                writer = csv.DictWriter(tempfile, fieldnames=fields, lineterminator='\n')
+                for row in reader:
+                    if row['rut'] == rut:  
+                        continue
+                    writer.writerow(row)
+
+            shutil.move(tempfile.name, abs_path_empleados)
+
+    def agregar_admin(self, nombre, rut, contraseña, nombre_cine, sueldo):
+        cine = self.cines.get(nombre_cine)
+        if cine is not None:
+            if not cine.existe_empleado(rut):
+                cine.añadir_admin_local(rut, contraseña, nombre, sueldo)
+                path = os.getcwd()
+                abs_path_credenciales = f"{path}\data\\credenciales.csv"
+                
+                with open(abs_path_credenciales, 'a', newline='') as csv_file:
+                    writer = csv.writer(csv_file, lineterminator='\n')
+                    writer.writerow((rut, contraseña, "administrador_local", nombre_cine))
+
+                    csv_file.close()
+
+                abs_path_empleado = f"{path}\data\{nombre_cine}\empleados.csv"
+
+                with open(abs_path_empleado, 'a', newline='') as csv_file:
+                    writer = csv.writer(csv_file, lineterminator='\n')
+                    writer.writerow((nombre, rut, sueldo, 0))
+
+                    csv_file.close()
+
+                return True
+
+        return False

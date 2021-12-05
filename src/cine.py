@@ -1,4 +1,4 @@
-from src.trabajador import Empleado
+from src.trabajador import Empleado, AdminLocal
 
 
 class Cine:
@@ -60,6 +60,15 @@ class Cine:
 
         return empleado
 
+    def añadir_admin_local(self, rut: str, contraseña: str, nombre: str, sueldo: str):
+        admin_local = AdminLocal(rut, contraseña, "administrador_local", self.nombre)
+        admin_local.nombre = nombre
+        admin_local.sueldo = int(sueldo)
+
+        self.trabajadores[admin_local.rut] = admin_local
+
+        return admin_local
+
     def get_salas(self):
         opciones_salas = {}
         for sala in self.salas.values():
@@ -91,3 +100,11 @@ class Cine:
         pelicula = self.peliculas.get(id_pelicula)
 
         pelicula.precio = precio
+
+    def get_local_admins(self):
+        local_admins = []
+        for empleado in self.trabajadores.values():
+            if empleado.cargo == "administrador_local":
+                local_admins.append( (empleado.rut, empleado.nombre, empleado.cine) )
+
+        return local_admins

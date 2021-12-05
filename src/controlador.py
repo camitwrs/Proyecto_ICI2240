@@ -2,7 +2,7 @@ from src.modelos.login import LoginModel
 from src.vistas.application import Aplicacion
 from src.vistas.empleado import PageEmpleado, SubPageEmpleado, PageDescuento, PageVentaEntrada
 from src.vistas.admin_local import PageAdminLocal, PageModificarEmpleados, PageModificarSalas
-from src.vistas.admin_global import PageAdminGlobal, PageModificarPrecio
+from src.vistas.admin_global import PageAdminGlobal, PageModificarPrecio, PageEliminarAdmin, PageAgregarAdmin
 
 
 class Controller:
@@ -212,3 +212,26 @@ class Controller:
         self.model.modificar_precio(selected_pelicula[1]['text'], selected_pelicula[1]['values'][1], int(precio))
         selected_pelicula[1]['values'][3] = int(precio)
         self.view._frame.update_pelicula(selected_pelicula[0], selected_pelicula[1]['text'], selected_pelicula[1]['values'])
+
+    def boton_agregar_local_adm(self):
+        self.view.switch_frame(PageAgregarAdmin)
+
+    def boton_eliminar_local_adm(self):
+        local_admins = self.model.get_local_admins()
+        self.view.switch_frame(PageEliminarAdmin)
+        self.view._frame.set_admins(local_admins)
+
+    def eliminar_admin(self, rut):
+        cine = self.view._frame.search_and_del_admin(rut)
+        if cine is None:
+            self.view.throw_error("Error", "El RUT ingresado no corresponde a ningún admin local.")
+        else:
+            self.model.eliminar_admin(rut, cine)
+
+    def agregar_admin(self, nombre, rut, contraseña, cine, sueldo):
+        result = self.model.agregar_admin(nombre, rut, contraseña, cine, sueldo)
+
+        if not result:
+            self.view.throw_error("Error", "Ha ocurrido un error al agregar al administrador, asegurate que el nombre de cine es correcto y que el usuario no exista en el sistema.")
+        else:
+            self.view.throw_messagebox("Exito", "El administrador local ha sido agregado con éxito al sistema.")
