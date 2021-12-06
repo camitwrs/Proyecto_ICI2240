@@ -7,8 +7,8 @@ from src.modelos import *
 from src.cupon import Cupon
 
 DOB_SUB = {
-    0: "Subtitulada",
-    1: "Doblada"
+    0: "Doblada",
+    1: "Subtitulada"
 }
 
 class LoginModel:
@@ -164,7 +164,6 @@ class LoginModel:
         return salas
 
     def _cargar_funciones(self, cine_folder: str, peliculas: dict, salas: dict): 
-        funciones = []
         with open(f"{cine_folder}\\funciones.csv") as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             next(csv_reader)
@@ -184,14 +183,11 @@ class LoginModel:
                 sala = salas[sala]
 
                 funcion = Funcion(horario, sala, pelicula, entradas_vendidas)
-                funciones.append(funcion)
-                pelicula.funciones.append(funcion)
-                sala.funciones.append(funcion)
+                pelicula.funciones.insert(inicio, funcion)
+                sala.funciones.insert(inicio, funcion)
 
                 print(funcion.horario.inicio, funcion.horario.final, funcion.sala.numero, funcion.sala.asientos_totales,
                         funcion.sala.estado, funcion.pelicula.nombre, funcion.entradas_vendidas)
-
-        return funciones
 
 
     def _cargar_peliculas(self, cine_folder: str, salas):

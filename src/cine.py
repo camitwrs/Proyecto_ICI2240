@@ -1,4 +1,5 @@
 from src.trabajador import Empleado, AdminLocal
+from src.pelicula import Pelicula
 
 
 class Cine:
@@ -25,9 +26,13 @@ class Cine:
         opciones_funciones = {}
         pelicula = self.peliculas[id_pelicula]
 
-        for funcion in pelicula.funciones:
-            inicio = funcion.get_horario_inicio()
+        pair_aux = pelicula.funciones.first()
+
+        while pair_aux:
+            inicio = pair_aux.value.get_horario_inicio()
             opciones_funciones[inicio.strftime("%d-%m %H:%M")] = (pelicula.id, inicio)
+
+            pair_aux = pelicula.funciones.next()
         
         return opciones_funciones
 
@@ -108,3 +113,15 @@ class Cine:
                 local_admins.append( (empleado.rut, empleado.nombre, empleado.cine) )
 
         return local_admins
+
+    def buscar_pelicula(self, nombre, año, duracion, dob_sub):
+        for pelicula in self.peliculas.values():
+            if pelicula.nombre == nombre and pelicula.año == año and pelicula.duracion == duracion and pelicula.dob_sub == dob_sub:
+                return pelicula
+        
+        return None
+
+    def añadir_pelicula(self, nombre, id_, año, duracion, precio, generos, dob_sub):
+        pelicula = Pelicula(nombre, id_, duracion, año, dob_sub, precio, generos)
+
+        self.peliculas[id_] = pelicula

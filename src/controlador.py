@@ -117,6 +117,14 @@ class Controller:
 
 
     """ FUNCIONES DE ADMIN LOCAL """
+    def añadir_pelicula(self, nombre: str, año: str, duracion: str, precio: str, generos: str, dob_sub: str):
+        if len(nombre) == 0 or len(año) == 0 or len(duracion) == 0 or len(precio) == 0 or len(generos) == 0 or len(dob_sub) == 0:
+            self.view.throw_error("Error", "Por favor rellena todos los campos que se solicitan.")
+        elif not año.isdigit() or not duracion.isdigit() or not precio.isdigit():
+            self.view.throw_error("Error", "Asegura de ingresar numeros enteros en los campos que lo requieran.")
+        else:
+            self.model.añadir_pelicula(nombre, año, duracion, precio, generos, dob_sub)
+
     def boton_modificar_empleados(self):
         empleados = self.model.get_empleados()
         
