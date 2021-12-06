@@ -1,5 +1,5 @@
-<h1 align="center">CINE4U</h1>
-<p align="center">Proyecto de aplicación destinada a empresas de cine</p>
+# CINE4U
+#Proyecto de aplicación destinada a empresas de cine
 
 ## Cómo compilar y ejecutar la aplicación 
 
@@ -27,7 +27,7 @@ El usuario solo debe modificar la carpeta **data** con los datos respectivos de 
     - En el archivo **horarios** deben estar los datos de inicio y final de las jornadas de trabajo (en Tiempo Unix)
 ## Aspectos a considerar para un correcto funcionamiento 
 
-- Para que la función **Marcar asistencia** se active de forma correcta, se debe tener el cuidado de tener un horario que esté dentro del rango de la hora actual, es decir, tiene que segunda coincidir el día que le corresponde al empleado y además, debe marcar su asistencia dentro del rango de trabajo. Por ejemplo, si el empleado debe trabajar el 07/12/2021 y su hora de inicio es a las 08:00 y su hora de salida es a las 18:00, debe asegurarse de marcar la asistencia dentro de ese intervalo, sino el programa arrojará un error. 
+- Para que la función **marcar asistencia** se active de forma correcta, se debe tener el cuidado de tener un horario que esté dentro del rango de la hora actual, es decir, tiene que segunda coincidir el día que le corresponde al empleado y además, debe marcar su asistencia dentro del rango de trabajo. Por ejemplo, si el empleado debe trabajar el 07/12/2021 y su hora de inicio es a las 08:00 y su hora de salida es a las 18:00, debe asegurarse de marcar la asistencia dentro de ese intervalo, sino el programa arrojará un error. 
 
 - Si bien el programa crea un empleado nuevo, es necesario acceder a sus archivos horarios.csv y asistencia.csv desde fuera de la aplicación para asignarle sus horarios de ingreso y salida (en Tiempo Unix).
 
