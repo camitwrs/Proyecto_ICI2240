@@ -3,7 +3,7 @@
 
 ## Cómo compilar y ejecutar la aplicación
 
-En el repositorio debe descargar el ZIP, extraerlo en su computador, apretar el ejecutable CINE4U.exe y listo!
+En el repositorio debe descargar el ZIP, extraerlo en su computador, apretar el ejecutable main.exe y listo!
 
 _Requisitos: Tener instalado Visual Studio Code para el ingreso de datos tipo Tiempo Unix en archivos.csv_
 
