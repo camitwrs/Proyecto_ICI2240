@@ -1,7 +1,7 @@
 inicio,sala,nombre,id,entradas_vendidas
 1637694000,2,Cruella,1,0
-1637694000,1,"El Conjuro",5,0
-1637708400,1,"El Conjuro",5,0
+1637694000,1,El Conjuro,5,0
+1637708400,1,El Conjuro,5,0
 1637676000,3,Aquaman,2,0
-1637701200,4,"Black Widow",3,0
-1637694000,5,"Venom 2",4,0
+1637701200,4,Black Widow,3,1
+1637694000,5,Venom 2,4,0
