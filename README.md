@@ -1,5 +1,5 @@
-# CINE4U
-# Proyecto de aplicación destinada a empresas de cine
+<h1 align="center">CINE4U</h1>
+<p align="center">Proyecto de aplicación destinada a empresas de cine</p>
 
 ## Cómo compilar y ejecutar la aplicación 
 
