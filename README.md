@@ -1,5 +1,5 @@
 # CINE4U
-#Proyecto de aplicación destinada a empresas de cine
+# Proyecto de aplicación destinada a empresas de cine
 
 ## Cómo compilar y ejecutar la aplicación 
 
