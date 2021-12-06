@@ -21,6 +21,10 @@ class Trabajador(ABC):
 
     @abstractmethod
     def crear_modelo(self, **kwargs):
+        """ 
+            Crea el modelo a utilizar por el MVC. 
+            Se declara como método abstracto ya que cada clase lo implementa de manera distinta.
+        """
         pass
 
     def verificar_contraseña(self, contraseña: str) -> bool:
@@ -30,6 +34,9 @@ class Trabajador(ABC):
         return False
 
 class Empleado(Trabajador):
+    """ Hereda los atributos de la clase trabajador. """
+
+
     def crear_modelo(self, **kwargs):
         usuario = kwargs.get("usuario")
         cine = kwargs.get("cine")
@@ -42,7 +49,7 @@ class Empleado(Trabajador):
 
     def get_horario_semana(self):
         """
-            Retorna una lista con los horarios del empleado que correspondan
+            Retorna una lista con los horarios del empleado que correspondan.
         """
         horarios = []
 
@@ -66,6 +73,9 @@ class Empleado(Trabajador):
         return None
 
 class AdminLocal(Trabajador):
+    """ Hereda los atributos de la clase trabajador. """
+
+
     def crear_modelo(self, **kwargs):
         usuario = kwargs.get("usuario")
         cine = kwargs.get("cine")
@@ -76,6 +86,9 @@ class AdminLocal(Trabajador):
         return AdminLocalModel(usuario, cine)
 
 class AdminGlobal(Trabajador):
+    """ Hereda los atributos de la clase trabajador. """
+
+
     def crear_modelo(self, **kwargs):
         usuario = kwargs.get("usuario")
         cines = kwargs.get("cines")

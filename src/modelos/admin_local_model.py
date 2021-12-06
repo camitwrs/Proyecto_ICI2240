@@ -16,6 +16,10 @@ class AdminLocalModel:
         self.cine = cine
 
     def añadir_pelicula(self, nombre, año, duracion, precio, generos, dob_sub):
+        """
+            Verifica si la película a agregar no esté ya en el sistema.
+            Si lo anterior se cumple, se crea la instancia de la película en memoria y se guarda en el archivo csv.
+        """
         pelicula = self.cine.buscar_pelicula(nombre, int(año), int(duracion), dob_sub)
 
         if pelicula:
@@ -53,6 +57,7 @@ class AdminLocalModel:
         return empleados_list
 
     def eliminar_empleado(self, rut):
+        """ Elimina un empleado desde memoria y de todos los archivos pertinentes. """
         result = self.cine.eliminar_empleado(rut)
 
         if result: 
@@ -94,6 +99,7 @@ class AdminLocalModel:
         return result
 
     def añadir_empleado(self, rut: str, contraseña: str, nombre_completo: str, sueldo: str):
+        """ Crea una instancia del empleado nuevo en memoria, y lo añade a todos los archivos csv pertinentes. """
         if self.cine.existe_empleado(rut):
             return None
 
@@ -139,6 +145,7 @@ class AdminLocalModel:
         return self.cine.get_salas()
 
     def habilitar_sala(self, id):
+        """ Habilita una sala del cine y lo guarda en el archivo csv correspondiente. """
         self.cine.habilitar_sala(id)
         
         path = os.getcwd()
@@ -159,6 +166,7 @@ class AdminLocalModel:
         return self.get_salas()
 
     def deshabilitar_sala(self, id):
+        """ Habilita una sala del cine y lo guarda en el archivo csv correspondiente. """
         self.cine.deshabilitar_sala(id)
         
         path = os.getcwd()

@@ -20,6 +20,7 @@ class AdminGlobalModel:
         self.cupones = cupones
 
     def generar_cupones(self, cantidad, porcentaje):
+        """ Crea cupones de descuento, los guarda en memoria y en el archivo csv correspondiente."""
         new_cupones = {}
 
         for _ in range(cantidad):
@@ -62,6 +63,7 @@ class AdminGlobalModel:
         return items
 
     def modificar_precio(self, id_pelicula, nombre_cine, precio):
+        """ Modifica el precio de una película en un cine específico. """
         cine = self.cines.get(nombre_cine)
 
         cine.modificar_precio(id_pelicula, precio)
@@ -90,6 +92,7 @@ class AdminGlobalModel:
         return local_admins
 
     def eliminar_admin(self, rut: str, nombre_cine: str):
+        """ Elimina a algún administrador local de memoria y de los archivos csv en los que se encuentre. """
         cine = self.cines.get(nombre_cine)
         result = cine.eliminar_empleado(rut)
 
@@ -125,6 +128,7 @@ class AdminGlobalModel:
             shutil.move(tempfile.name, abs_path_empleados)
 
     def agregar_admin(self, nombre, rut, contraseña, nombre_cine, sueldo):
+        """ Agrega un administrador local a un cine en especifico y lo guarda en los archivos csv correspondientes. """
         cine = self.cines.get(nombre_cine)
         if cine is not None:
             if not cine.existe_empleado(rut):

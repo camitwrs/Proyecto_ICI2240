@@ -12,6 +12,10 @@ class Pelicula:
         self.funciones = TreeMap()
 
     def get_funcion(self, inicio):
+        """ 
+            Busca una función en el treemap de funciones según su horario de inicio.
+            Retorna la función o bien None si no la encuentra.
+        """
         pair_aux = self.funciones.first()
 
         while pair_aux:

@@ -11,6 +11,7 @@ class Cine:
         self.salas = salas
 
     def get_opciones_peliculas(self) -> dict:
+        """ Retorna las opciones de películas disponibles a desplegar en el menú. """
         opciones_pelis = {}
         peliculas = self.peliculas.values()
 
@@ -23,6 +24,7 @@ class Cine:
             return None
 
     def get_funciones(self, id_pelicula):
+        """ Retorna las opciones de funciones disponibles a desplegar en el menú. """
         opciones_funciones = {}
         pelicula = self.peliculas[id_pelicula]
 
@@ -75,6 +77,7 @@ class Cine:
         return admin_local
 
     def get_salas(self):
+        """ Retorna información sobre todas las salas del cine, la cuál se va a desplegar en el menú. """
         opciones_salas = {}
         for sala in self.salas.values():
             if sala.estado:

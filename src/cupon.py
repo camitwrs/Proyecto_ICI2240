@@ -5,6 +5,10 @@ class Cupon:
         self.utilizado = utilizado
 
     def verificar(self):
+        """ 
+            Verifica si el cupón ha sido utilizado con anterioridad.
+            Retorna True en caso de que aún este vigente y False en caso que haya sido ocupado.
+        """
         if self.utilizado == False:
             return True
 

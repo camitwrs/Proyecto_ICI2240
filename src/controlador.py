@@ -44,6 +44,7 @@ class Controller:
     
     """ FUNCIONES DE EMPLEADO """
     def boton_vender_entrada(self):
+        """ Función que es llamada desde la vista al presionar el botón vender entrada. """
         opciones_pelis = self.model.get_peliculas()
         
         if opciones_pelis is None:
@@ -53,9 +54,11 @@ class Controller:
             self.view._frame.set_peliculas(opciones_pelis)
 
     def boton_aplicar_descuento(self) -> None:
+        """ Función que es llamada desde la vista al presionar el botón aplicar descuento. """
         self.view.switch_frame(PageDescuento)
     
     def boton_concretar_venta(self):
+        """ Función que es llamada desde la vista al presionar el botón concretar venta. """
         boleta = self.model.concretar_venta()
 
         if boleta is None:
@@ -71,11 +74,13 @@ class Controller:
             self.view.switch_frame(PageEmpleado)
     
     def boton_cancelar_venta(self):
+        """ Función que es llamada desde la vista al presionar el botón de cancelar venta. """
         self.model.cancelar_venta()
         self.view.throw_messagebox("VENTA", "La venta ha sido cancelada.")
         self.view.switch_frame(PageEmpleado)
         
     def get_funciones(self, id_pelicula: id):
+        """ Función que obtiene las funciones de una película desde el modelo y las envía a la vista. """
         opciones_funciones = self.model.get_funciones(id_pelicula)
         
         if len(opciones_funciones) == 0:
@@ -84,20 +89,24 @@ class Controller:
             self.view._frame.set_funciones(opciones_funciones)
 
     def guardar_venta(self, id_pelicula, inicio):
+        """ Función que guarda los datos de una venta de entrada en el modelo. """
         self.model.guardar_venta(id_pelicula, inicio)
 
     def informe_ventas(self):
+        """ Función llamada desde la vista al apretar el botón de informe ventas. """
         nombre, rut, ventas = self.model.informe_ventas()
 
         self.view.throw_messagebox("Ventas", f"{nombre} - {rut}\n\nHas realizado un total de {ventas}.")
 
     def mostrar_horario(self):
+        """ Función llamada desde la vista al apretar el botón de mostrar horario. """
         horarios_concatenados = self.model.mostrar_horario_mod()
 
         if len(horarios_concatenados) > 0:
             self.view.throw_messagebox("HORARIOS", horarios_concatenados)
         
     def marcar_asistencia(self):
+        """ Función llamada desde la vista al apretar el botón de marcar asistencia. """
         result = self.model.marcar_asistencia_mod()
 
         if result[0]:
@@ -106,6 +115,7 @@ class Controller:
             self.view.throw_error("ASISTENCIA", result[1])
 
     def verificar_cupon(self, codigo: str) -> None:
+        """ Función llamada desde la vista al ingresar el código de un cupón de descuento. """
         cupon_valido = self.model.verificar_cupon(codigo)
 
         if cupon_valido:
@@ -118,6 +128,7 @@ class Controller:
 
     """ FUNCIONES DE ADMIN LOCAL """
     def añadir_pelicula(self, nombre: str, año: str, duracion: str, precio: str, generos: str, dob_sub: str):
+        """ Función llamada desde la vista al intentar agregar una película al sistema. """
         if len(nombre) == 0 or len(año) == 0 or len(duracion) == 0 or len(precio) == 0 or len(generos) == 0 or len(dob_sub) == 0:
             self.view.throw_error("Error", "Por favor rellena todos los campos que se solicitan.")
         elif not año.isdigit() or not duracion.isdigit() or not precio.isdigit():
@@ -126,12 +137,14 @@ class Controller:
             self.model.añadir_pelicula(nombre, año, duracion, precio, generos, dob_sub)
 
     def boton_modificar_empleados(self):
+        """ Función llamada desde la vista al apretar el botón modificar empleados. """
         empleados = self.model.get_empleados()
         
         self.view.switch_frame(PageModificarEmpleados)
         self.view._frame.set_empleados(empleados)
 
     def eliminar_empleado(self):
+        """ Función llamada desde la vista al apretar el botón de eliminar empleado. """
         selected_empleado = self.view._frame.selected_empleado
         if selected_empleado is None:
             self.view.throw_error("Error", "Por favor selecciona uno de los empleados en la lista de abajo antes de hacer click en el botón.")
@@ -143,6 +156,7 @@ class Controller:
             self.view._frame.eliminar_empleado(selected_empleado[0])
 
     def añadir_empleado(self, rut, contraseña, nombre_completo, sueldo):
+        """ Función llamada desde la vista al apretar el botón de añadir empleado. """
         if len(rut) == 0 or len(contraseña) == 0 or len(nombre_completo) == 0 or len(sueldo) == 0:
             self.view.throw_error("Error", "Al menos uno de los campos de información necesarios para agregar al empleado está vacio.")
             return
@@ -159,12 +173,14 @@ class Controller:
             self.view.throw_error("Error", "El empleado a agregar ya tiene una cuenta creada en el sistema.")
 
     def boton_modificar_salas(self):
+        """ Función llamada desde la vista al apretar el botón de modificar salas. """
         salas = self.model.get_salas()
         
         self.view.switch_frame(PageModificarSalas)
         self.view._frame.set_salas(salas)
 
     def habilitar_sala(self):
+        """ Función llamada desde la vista al apretar el botón para habilitar una sala. """
         selected_sala = self.view._frame.selected_sala
         if selected_sala is None:
             self.view.throw_error("Error", "Por favor selecciona alguna de las salas antes de presionar el botón.")
@@ -174,6 +190,7 @@ class Controller:
         self.view._frame.update_sala(selected_sala[0], selected_sala[1]['text'], selected_sala[1]['values'])
 
     def deshabilitar_sala(self):
+        """ Función llamada desde la vista al apretar el botón para deshabilitar una sala. """
         selected_sala = self.view._frame.selected_sala
         if selected_sala is None:
             self.view.throw_error("Error", "Por favor selecciona alguna de las salas antes de presionar el botón.")
@@ -184,6 +201,7 @@ class Controller:
 
     """ FUNCIONES ADMINISTRADOR GLOBAL """
     def generar_cupones(self, cantidad, porcentaje):
+        """ Función llamada desde la vista al apretar el botón para generar cupones de descuento. """
         if len(cantidad) == 0 or len(porcentaje) == 0:
             self.view.throw_error("Error", "Por favor especifica un valor para ambos campos.")
         elif not cantidad.isdigit() or not porcentaje.isdigit():
@@ -199,6 +217,7 @@ class Controller:
             self.view.throw_error("Error", "Ha occurido un error al generar los cupones.")
 
     def boton_modificar_precios(self):
+        """ Función llamada desde la vista al apretar el botón para modificar precios """
         self.view.switch_frame(PageModificarPrecio)
 
         peliculas = self.model.get_precios_peliculas()
@@ -206,6 +225,7 @@ class Controller:
             self.view._frame.set_peliculas(peliculas)
 
     def modificar_precio(self, precio):
+        """ Función llamada desde la vista al presionar el botón para intentar modificar el precio de una película. """
         selected_pelicula = self.view._frame.selected_pelicula
         if selected_pelicula is None:
             self.view.throw_error("Error", "Por favor selecciona alguna de las películas antes de presionar el botón.")
@@ -222,14 +242,17 @@ class Controller:
         self.view._frame.update_pelicula(selected_pelicula[0], selected_pelicula[1]['text'], selected_pelicula[1]['values'])
 
     def boton_agregar_local_adm(self):
+        """ Función llamada desde la vista al apretar el botón para agregar un administrador local. """
         self.view.switch_frame(PageAgregarAdmin)
 
     def boton_eliminar_local_adm(self):
+        """ Función llamada desde la vista al apretar el botón para eliminar un administrador local. """
         local_admins = self.model.get_local_admins()
         self.view.switch_frame(PageEliminarAdmin)
         self.view._frame.set_admins(local_admins)
 
     def eliminar_admin(self, rut):
+        """ Función llamada desde la vista al apretar el botón para intentar eliminar un administrador local. """
         cine = self.view._frame.search_and_del_admin(rut)
         if cine is None:
             self.view.throw_error("Error", "El RUT ingresado no corresponde a ningún admin local.")
@@ -237,6 +260,7 @@ class Controller:
             self.model.eliminar_admin(rut, cine)
 
     def agregar_admin(self, nombre, rut, contraseña, cine, sueldo):
+        """ Función llamada desde la vista al apretar el botón para intentar agregar un administrador local. """
         result = self.model.agregar_admin(nombre, rut, contraseña, cine, sueldo)
 
         if not result:

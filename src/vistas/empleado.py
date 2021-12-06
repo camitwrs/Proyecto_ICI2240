@@ -41,7 +41,7 @@ class SubPageEmpleado(Frame):
         Frame.__init__(self, master)
         self.configure(bg="#33353d")
         
-        #Espacio en blanco, estética
+        # INFORMACION ADICIONAL PARA EL USUARIO
         title = Label(self)
         title.configure(bg="#33353d")
         title.pack(pady=30)
@@ -57,7 +57,7 @@ class SubPageEmpleado(Frame):
         text2.configure(bg="#33353d", fg="#cccccccff")
         text2.pack(pady=10)
         
-        #Añade los botones de las distintas opciones
+        # BOTONES 
         boton1 = Button(self, text="1. Vender entrada", font='Helvetica 10 bold', command=lambda:self.controller.boton_vender_entrada())
         boton1.configure(bg="#cccccccff", fg="#1c1c1c")
         boton1.pack(pady=10)
@@ -86,7 +86,6 @@ class PageVentaEntrada(Frame):
         self.lista_pelis = []
         self.lista_funciones = []
         
-        #Espacio en blanco, estética
         title = Label(self)
         title.configure(bg="#33353d")
         title.pack(pady=50)
@@ -110,12 +109,14 @@ class PageVentaEntrada(Frame):
         retroceder.pack(pady=30)
         
     def set_peliculas(self, peliculas: dict):
+        """ Añade las películas que ingresan por parámetro a un combobox. """
         self.opciones_peliculas = peliculas
 
         for pelicula in peliculas.keys():
             self.combo1['values'] = (*self.combo1['values'], pelicula)
 
     def set_funciones(self, funciones: dict):
+        """ Añade las funciones que ingresan por parámetro a un combobox. """
         self.opciones_funciones = funciones
         self.combo2['values'] = ""
 
@@ -123,10 +124,12 @@ class PageVentaEntrada(Frame):
             self.combo2['values'] = (*self.combo2['values'], funcion)
         
     def _callback_peliculas(self, event_object):
+        """ Función que se llamada cuando es seleccionada una película. """
         self.combo2.set("")
         self.controller.get_funciones(self.opciones_peliculas[event_object.widget.get()])
 
     def _callback_funciones(self, event_object):
+        """ Función que es llamada cuando es seleccionada una función. """
         id_pelicula, inicio = self.opciones_funciones[event_object.widget.get()]
         self.controller.guardar_venta(id_pelicula, inicio)
                 

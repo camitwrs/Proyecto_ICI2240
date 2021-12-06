@@ -29,7 +29,7 @@ class PageAdminGlobal(Frame):
 class SubPageAdminGlobal(Frame):
     def __init__(self, master):
         self.controller = master.controller
-        #Añade los botones de las distintas opciones
+        
         Frame.__init__(self, master)
         self.configure(bg="#33353d")
         
@@ -50,7 +50,7 @@ class SubPageAdminGlobal(Frame):
 class PageEliminarAdmin(Frame):
     def __init__(self, master):
         self.controller = master.controller
-        #Añade los botones de las distintas opciones
+
         Frame.__init__(self, master)
         self.configure(bg="#33353d")
 
@@ -108,7 +108,7 @@ class PageEliminarAdmin(Frame):
 class PageAgregarAdmin(Frame):
       def __init__(self, master):
         self.controller = master.controller
-        #Añade los botones de las distintas opciones
+
         Frame.__init__(self, master)
         self.configure(bg="#33353d")
 
@@ -182,7 +182,6 @@ class PageGenerarCupones(Frame):
         Frame.__init__(self, master)
         self.configure(bg="#33353d")
         
-        #Espacio en blanco, estética
         title = Label(self)
         title.configure(bg="#33353d", fg="#cccccccff")
         title.pack(pady=50)
@@ -227,18 +226,15 @@ class PageModificarPrecio(Frame):
         Frame.__init__(self, master)
         self.configure(bg="#33353d")
 
-        #Añade el texto para ingresar rut en el frame
         self.texto_precio = Label(self, text="Nuevo precio:", font='Helvetica 12 bold')
         self.texto_precio.configure(bg="#33353d", fg="#cccccccff")
         self.texto_precio.grid(row=0, column=0, pady=(50,0))
-        #texto_rut.pack()
         
-        # #Añade la entrada para el rut del usuario
         self.precio = StringVar()
         self.entry_precio = Entry(self, width=20, textvariable=self.precio)
         self.entry_precio.configure(bg="#e6e1da")
         self.entry_precio.grid(row=0, column=1, pady=(50,0))
-        #entry_rut.pack(pady=10) 
+
 
         self.boton_modificar_precio = Button(self, 
                                             text="Modificar", 

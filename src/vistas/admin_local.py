@@ -128,43 +128,38 @@ class PageModificarEmpleados(ttk.Frame):
         self.entry_rut.configure(bg="#e6e1da")
         self.entry_rut.grid(row=0, column=1, pady=(50, 0))
 
-        # #Añade el texto para ingresar rut en el frame
+        # #Añade el texto para ingresar nombre en el frame
         self.texto_nombre = Label(self, text="Nombre completo:", font='Helvetica 12 bold')
         self.texto_nombre.configure(bg="#33353d", fg="#cccccccff")
         self.texto_nombre.grid(row=1, column=0)
         
-        # #Añade la entrada para el rut del usuario
+        # #Añade la entrada para el nombre del usuario
         self.nombre = StringVar()
         self.entry_usuario = Entry(self, width=20, textvariable=self.nombre)
         self.entry_usuario.configure(bg="#e6e1da")
         self.entry_usuario.grid(row=1, column=1)
-        #entry_usuario.pack(pady=10) 
 
-        # #Añade el texto para ingresar rut en el frame
+        # #Añade el texto para ingresar la contraseña en el frame
         self.texto_contraseña = Label(self, text="Contraseña:", font='Helvetica 12 bold')
         self.texto_contraseña.configure(bg="#33353d", fg="#cccccccff")
         self.texto_contraseña.grid(row=2, column=0)
-        # texto_contraseña.pack()
         
-        # #Añade la entrada para el rut del usuario
+        # #Añade la entrada para la contraseña del usuario
         self.contraseña = StringVar()
         self.entry_contraseña = Entry(self, width=20, textvariable=self.contraseña)
         self.entry_contraseña.configure(bg="#e6e1da")
         self.entry_contraseña.grid(row=2, column=1)
-        #entry_contraseña.pack(pady=10) 
 
-        # #Añade el texto para ingresar rut en el frame
+        # #Añade el texto para ingresar el sueldo en el frame
         self.texto_sueldo = Label(self, text="Sueldo:", font='Helvetica 12 bold')
         self.texto_sueldo.configure(bg="#33353d", fg="#cccccccff")
         self.texto_sueldo.grid(row=3, column=0)
-        # texto_sueldo.pack()
         
-        # #Añade la entrada para el rut del usuario
+        # #Añade la entrada para el sueldo del usuario
         self.sueldo = StringVar()
         self.entry_sueldo = Entry(self, width=20, textvariable=self.sueldo)
         self.entry_sueldo.configure(bg="#e6e1da")
         self.entry_sueldo.grid(row=3, column=1)
-        # entry_sueldo.pack(pady=10) 
 
         self.boton_añadir_empleado = Button(self, 
                                             text="Añadir empleado", 
@@ -181,7 +176,6 @@ class PageModificarEmpleados(ttk.Frame):
         self.boton_eliminar_empleado = Button(self, text="Eliminar empleado", font='Helvetica 10 bold', command=lambda:self.controller.eliminar_empleado())
         self.boton_eliminar_empleado.configure(bg="#cccccccff", fg="#1c1c1c")
         self.boton_eliminar_empleado.grid(row=3, column=2, padx=20)
-        #self.boton_eliminar_empleado.pack(pady=10)
 
         self.style = ttk.Style(self)
         self.style.theme_use("clam")
@@ -197,12 +191,10 @@ class PageModificarEmpleados(ttk.Frame):
         self.treeview.heading("#2", text="SUELDO")
 
         self.treeview.grid(row=4, column=0, rowspan=10, columnspan=10)
-        #self.treeview.pack()
 
         self.boton_retroceder = Button(self, text="Confirmar", font='Helvetica 10 bold', command=lambda:master.switch_frame(PageAdminLocal))
         self.boton_retroceder.configure(bg="#ec646c", fg="#1c1c1c")
         self.boton_retroceder.grid(row=15, column=1, pady=40)
-        #self.boton_retroceder.pack(pady=10)
 
         self.pack()
 
