@@ -48,7 +48,7 @@ El usuario solo debe modificar la carpeta **data** con los datos respectivos de 
 
 - Para agregar los datos de ingreso, salida y asistencia de un nuevo empleado o un empleado existente, es necesario hacerlo a través de Visual Studio Code, ya que es muy probable que Excel cambie el formato de los datos ingresados y no reconozca todos los campos que se ingresan.
 
-- Para que la función **Marcar asistencia** se active de forma correcta, se debe tener el cuidado de tener un horario que esté dentro del rango de la hora actual, es decir, tiene que segunda coincidir el día que le corresponde al empleado y además, debe marcar su asistencia dentro del rango de trabajo. Por ejemplo, si el empleado debe trabajar el 07/12/2021 y su hora de inicio es a las 08:00 y su hora de salida es a las 18:00, debe asegurarse de marcar la asistencia dentro de ese intervalo, sino el programa arrojará un error. 
+- Para que la función **Marcar asistencia** se active de forma correcta, se debe tener el cuidado de tener un horario que esté dentro del rango de la hora actual, es decir, tiene que coincidir el día que le corresponde al empleado y además, debe marcar su asistencia dentro del rango de trabajo. Por ejemplo, si el empleado debe trabajar el 07/12/2021 y su hora de inicio es a las 08:00 y su hora de salida es a las 18:00, debe asegurarse de marcar la asistencia dentro de ese intervalo, sino el programa arrojará un error. 
 
 - Si bien el programa crea un empleado nuevo, es necesario acceder a sus archivos horarios.csv y asistencia.csv desde fuera de la aplicación para asignarle sus horarios de ingreso y salida (en Tiempo Unix).
 
