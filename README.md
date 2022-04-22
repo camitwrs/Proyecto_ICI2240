@@ -28,7 +28,7 @@ El usuario solo debe modificar la carpeta **data** con los datos respectivos de 
     
     - En el archivo **cupones** deben estar los datos de los cupones ya existentes: código del cupón, porcentaje que aplica (0-100) y un número que indica si ha sido utilizado (1) o no (0).
 
-- Dentro de cada subcarpeta de local deben existir: Subcarpeta llamada **empleados**y 5 archivos csv: **empleados**, **funciones**, **peliculas**, **salas** y **ventas**. 
+- Dentro de cada subcarpeta de local deben existir: Subcarpeta llamada **empleados** y 5 archivos csv: **empleados**, **funciones**, **peliculas**, **salas** y **ventas**. 
     - En el archivo **empleados** deben estar los datos de los empleados del local: nombre (de la forma nombre_apellido), rut (sin digito verificador ni puntos), sueldo (sin puntos) y la cantidad de ventas que ya ha hecho. 
     
     - En el archivo **funciones** deben estar los datos de las funciones de las películas: hora de inicio (en Tiempo Unix), número de la sala, ID de la película y cantidad de entradas vendidas. 
